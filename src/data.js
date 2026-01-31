@@ -1,34 +1,17 @@
 export const experiences = [
-  {
-    id: 1,
-    year: "2018",
-    title: "Ruby on Rails Developer",
-    company: "Freelance / Agency",
-    description: "Sviluppo di applicazioni web robuste seguendo il paradigma MVC. Gestione di database PostgreSQL e implementazione di logiche business complesse.",
-    skills: ["Ruby", "Rails", "PostgreSQL", "JavaScript"]
-  },
-  {
-    id: 2,
-    year: "2020",
-    title: "Mobile App Developer (Ionic & Angular)",
-    company: "Tech Solutions",
-    description: "Creazione di applicazioni cross-platform con Ionic. Architetture scalabili in Angular e gestione del ciclo di vita delle app su store Android/iOS.",
-    skills: ["Angular", "Ionic", "TypeScript", "SCSS"]
-  },
-  {
-    id: 3,
-    year: "2022",
-    title: "Frontend Animator (Svelte & GSAP)",
-    company: "Creative Studio",
-    description: "Focus su performance e micro-interazioni. Utilizzo di Svelte per la reattività nativa e GSAP per animazioni orchestrate di alto livello.",
-    skills: ["Svelte", "GSAP", "Tailwind CSS", "Vite"]
-  },
-  {
-    id: 4,
-    year: "2024",
-    title: "React Specialist Journey",
-    company: "Curriculum Project",
-    description: "Oggi porto le basi di Next.js e la mia esperienza multi-framework in React, costruendo interfacce moderne e animate.",
-    skills: ["React", "Next.js", "Hooks", "Modern JS"]
-  }
+  { id: 1, year: "1998", title: "Esperienza 1998", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 2, year: "2000", title: "Esperienza 2000", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 3, year: "2002", title: "Esperienza 2002", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 4, year: "2004", title: "Esperienza 2004", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 5, year: "2006", title: "Esperienza 2006", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 6, year: "2008", title: "Esperienza 2008", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 7, year: "2010", title: "Esperienza 2010", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 8, year: "2012", title: "Esperienza 2012", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 9, year: "2014", title: "Esperienza 2014", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 10, year: "2016", title: "Esperienza 2016", company: "Azienda", description: "Descrizione da definire...", skills: ["Skill"] },
+  { id: 11, year: "2018", title: "Ruby on Rails Developer", company: "Agency", description: "Sviluppo MVC e database PostgreSQL.", skills: ["Ruby", "Rails"] },
+  { id: 12, year: "2020", title: "Mobile App Developer", company: "Tech Sol.", description: "App ibride con Ionic e Angular.", skills: ["Ionic", "Angular"] },
+  { id: 13, year: "2022", title: "Frontend Animator", company: "Studio", description: "Animazioni con Svelte e GSAP.", skills: ["Svelte", "GSAP"] },
+  { id: 14, year: "2024", title: "React Specialist", company: "Curriculum", description: "Mastering React e Next.js.", skills: ["React", "Next.js"] },
+  { id: 15, year: "2026", title: "Senior Engineer", company: "Future", description: "Progetti futuri e innovazione.", skills: ["Three.js", "AI"] },
 ];
