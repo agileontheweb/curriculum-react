@@ -7,7 +7,7 @@ export default function Navbar() {
         <div className="navbar-brand">
           <img src={logo} alt="Logo AgileOnTheWeb" className="navbar-logo" />
           <span className="navbar-title">
-            agile<span className="text-sky-500">ontheweb</span>
+            agile<span className="text-agile-sky">ontheweb</span>
           </span>
         </div>
         <div className="navbar-actions">

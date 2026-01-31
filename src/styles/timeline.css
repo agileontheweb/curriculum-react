@@ -4,7 +4,7 @@
   }
 
   .timeline-line {
-    @apply absolute top-0 bottom-0 w-px bg-slate-800 left-1/2;
+    @apply absolute top-0 bottom-0 w-px bg-white/10 left-1/2;
   }
 
   .timeline-list {
@@ -16,23 +16,22 @@
   }
   
   .timeline-item:hover .timeline-dot {
-    @apply border-sky-500;
+    @apply border-agile-sky;
   }
 
   .timeline-year {
-    @apply text-[10px] md:text-xs font-mono mb-1 transition-colors;
+    @apply text-[10px] md:text-xs font-bold mb-1 transition-colors uppercase tracking-tight;
   }
 
   .timeline-dot {
     @apply relative z-10 w-4 h-4 md:w-5 md:h-5 rounded-full transition-all border-2;
   }
 
-  /* Stati dinamici che gestiremo con classi semplici in React */
   .dot-active {
-    @apply bg-sky-500 border-white scale-110 shadow-[0_0_10px_rgba(14,165,233,0.5)];
+    @apply bg-agile-sky border-white scale-125 shadow-[0_0_15px_rgba(14,165,233,0.6)];
   }
 
   .dot-inactive {
-    @apply bg-slate-900 border-slate-700 hover:border-sky-500;
+    @apply bg-agile-navy border-white/20 hover:border-agile-sky/60;
   }
 }

@@ -5,6 +5,9 @@
 
 @theme {
   --font-sans: "Plus Jakarta Sans", sans-serif;
+  --color-agile-sky: #0ea5e9;
+  --color-agile-navy: #0f172a;
+  --color-agile-glow: rgba(14, 165, 233, 0.15);
 }
 
 body {

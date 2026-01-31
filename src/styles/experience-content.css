@@ -2,29 +2,28 @@
   .content-section {
     @apply flex-1;
   }
-
   .experience-card {
-    @apply sticky top-10 bg-slate-800/40 border border-slate-700/50 p-6 md:p-10 rounded-3xl backdrop-blur-sm;
+    @apply sticky top-10 bg-agile-navy/40 border border-white/10 p-6 md:p-10 rounded-3xl 
+           backdrop-blur-md shadow-2xl shadow-agile-sky/5;
   }
-
   .experience-year-label {
-    @apply text-sky-400 font-mono font-bold tracking-widest;
+    @apply text-agile-sky font-mono font-bold tracking-widest uppercase text-sm;
   }
 
   .experience-title {
-    @apply text-3xl md:text-5xl font-black text-white leading-none mt-2;
+    @apply text-3xl md:text-5xl font-extrabold text-white leading-tight mt-2 tracking-tight;
   }
 
   .experience-company {
-    @apply text-lg md:text-xl text-slate-500 mt-2;
+    @apply text-lg md:text-xl text-slate-400 mt-1 font-medium;
   }
 
   .experience-divider {
-    @apply h-px bg-slate-700/50 my-6;
+    @apply h-px bg-gradient-to-r from-agile-sky/40 to-transparent my-8;
   }
 
   .experience-description {
-    @apply text-slate-300 text-base md:text-lg leading-relaxed;
+    @apply text-slate-300 text-base md:text-lg leading-relaxed font-light;
   }
 
   .skills-container {
@@ -32,6 +31,7 @@
   }
 
   .skill-badge {
-    @apply px-3 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase border border-slate-800 rounded;
+    @apply px-3 py-1.5 bg-agile-navy text-slate-400 text-[10px] font-bold uppercase 
+           border border-white/5 rounded-lg hover:border-agile-sky/40 transition-colors;
   }
 }
