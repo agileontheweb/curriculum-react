@@ -1,17 +1,12 @@
 @import "tailwindcss";
-
-@import "tailwindcss";
-
-/* Import dei file CSS dedicati */
 @import "./styles/navbar.css";
 @import "./styles/timeline.css";
 @import "./styles/experience-content.css";
 
-/* Qui lasciamo solo le basi del body e reset se necessario */
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+@theme {
+  --font-sans: "Plus Jakarta Sans", sans-serif;
 }
 
 body {
-  @apply bg-slate-900 text-white overflow-x-hidden;
+  @apply bg-slate-900 text-white font-sans antialiased;
 }
