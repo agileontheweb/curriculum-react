@@ -1,0 +1,38 @@
+@layer components {
+  .timeline-container {
+    @apply relative flex flex-col items-center w-16 md:w-24 shrink-0;
+  }
+
+  .timeline-line {
+    @apply absolute top-0 bottom-0 w-px bg-slate-800 left-1/2;
+  }
+
+  .timeline-list {
+    @apply flex flex-col gap-8 w-full;
+  }
+
+  .timeline-item {
+    @apply relative flex flex-col items-center;
+  }
+  
+  .timeline-item:hover .timeline-dot {
+    @apply border-sky-500;
+  }
+
+  .timeline-year {
+    @apply text-[10px] md:text-xs font-mono mb-1 transition-colors;
+  }
+
+  .timeline-dot {
+    @apply relative z-10 w-4 h-4 md:w-5 md:h-5 rounded-full transition-all border-2;
+  }
+
+  /* Stati dinamici che gestiremo con classi semplici in React */
+  .dot-active {
+    @apply bg-sky-500 border-white scale-110 shadow-[0_0_10px_rgba(14,165,233,0.5)];
+  }
+
+  .dot-inactive {
+    @apply bg-slate-900 border-slate-700 hover:border-sky-500;
+  }
+}
