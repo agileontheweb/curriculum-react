@@ -14,26 +14,38 @@ function App() {
 
   useGSAP(() => {
     gsap.fromTo(contentRef.current,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.3 }
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
     );
   }, [selectedId]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    /* 1. h-screen + overflow-hidden sul root per bloccare lo scroll del body */
+    <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans">
       <Navbar />
 
-      <main className="w-full flex flex-row gap-4 md:gap-12 pt-32 pb-20 px-4">
-        <Timeline
-          experiences={experiences}
-          selectedId={selectedId}
-          onSelect={setSelectedId}
-        />
+      {/* 2. Il main deve occupare tutto lo spazio rimasto e non scrollare lui stesso */}
+      <main className="flex-1 flex flex-row gap-4 md:gap-12 pt-20 overflow-hidden">
 
-        <ExperienceContent
-          ref={contentRef}
-          experience={activeExperience}
-        />
+        {/* 3. Colonna Timeline: scrolla solo se i contenuti superano l'altezza */}
+        <aside className="w-16 md:w-32 h-full overflow-y-auto custom-scrollbar py-12 flex justify-center">
+          <Timeline
+            experiences={experiences}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+          />
+        </aside>
+
+        {/* 4. Colonna Content: scrolla indipendentemente dalla timeline */}
+        <section className="flex-1 h-full overflow-y-auto custom-scrollbar py-12 pr-4 md:pr-12">
+          <div>
+            <ExperienceContent
+              ref={contentRef}
+              experience={activeExperience}
+            />
+          </div>
+        </section>
+
       </main>
     </div>
   );

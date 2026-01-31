@@ -3,8 +3,8 @@
     @apply flex-1;
   }
   .experience-card {
-    @apply sticky top-10 bg-agile-navy/40 border border-white/10 p-6 md:p-10 rounded-3xl 
-           backdrop-blur-md shadow-2xl shadow-agile-sky/5;
+    @apply relative bg-agile-navy/40 border border-white/10 p-6 md:p-10 rounded-3xl backdrop-blur-md;
+    margin-bottom: 2rem;
   }
   .experience-year-label {
     @apply text-agile-sky font-mono font-bold tracking-widest uppercase text-sm;
