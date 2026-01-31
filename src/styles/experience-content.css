@@ -1,0 +1,37 @@
+@layer components {
+  .content-section {
+    @apply flex-1;
+  }
+
+  .experience-card {
+    @apply sticky top-10 bg-slate-800/40 border border-slate-700/50 p-6 md:p-10 rounded-3xl backdrop-blur-sm;
+  }
+
+  .experience-year-label {
+    @apply text-sky-400 font-mono font-bold tracking-widest;
+  }
+
+  .experience-title {
+    @apply text-3xl md:text-5xl font-black text-white leading-none mt-2;
+  }
+
+  .experience-company {
+    @apply text-lg md:text-xl text-slate-500 mt-2;
+  }
+
+  .experience-divider {
+    @apply h-px bg-slate-700/50 my-6;
+  }
+
+  .experience-description {
+    @apply text-slate-300 text-base md:text-lg leading-relaxed;
+  }
+
+  .skills-container {
+    @apply flex flex-wrap gap-2 mt-8;
+  }
+
+  .skill-badge {
+    @apply px-3 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase border border-slate-800 rounded;
+  }
+}
