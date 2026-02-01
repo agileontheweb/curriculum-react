@@ -1,0 +1,37 @@
+@layer components {
+  .content-section {
+    @apply flex-1;
+  }
+  .experience-card {
+    @apply relative bg-agile-navy/40 border border-white/10 p-6 md:p-10 rounded-3xl backdrop-blur-md;
+    margin-bottom: 2rem;
+  }
+  .experience-year-label {
+    @apply text-agile-sky font-mono font-bold tracking-widest uppercase text-sm;
+  }
+
+  .experience-title {
+    @apply text-3xl md:text-5xl font-extrabold text-white leading-tight mt-2 tracking-tight;
+  }
+
+  .experience-company {
+    @apply text-lg md:text-xl text-slate-400 mt-1 font-medium;
+  }
+
+  .experience-divider {
+    @apply h-px bg-gradient-to-r from-agile-sky/40 to-transparent my-8;
+  }
+
+  .experience-description {
+    @apply text-slate-300 text-base md:text-lg leading-relaxed font-light;
+  }
+
+  .skills-container {
+    @apply flex flex-wrap gap-2 mt-8;
+  }
+
+  .skill-badge {
+    @apply px-3 py-1.5 bg-agile-navy text-slate-400 text-[10px] font-bold uppercase 
+           border border-white/5 rounded-lg hover:border-agile-sky/40 transition-colors;
+  }
+}
