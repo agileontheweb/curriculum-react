@@ -18,10 +18,20 @@
       "description": "First steps into professional development.",
       "fullDescription": "I started by working on showcase websites and small e-commerce platforms, focusing on clean HTML code and cross-browser compatibility."
     },
+    "2019": {
+      "title": "Junior Web Developer",
+      "description": "I primi passi nello sviluppo professionale.",
+      "fullDescription": "Ho iniziato lavorando su siti vetrina e piccoli e-commerce, focalizzandomi sulla pulizia del codice HTML e sulla compatibilità cross-browser."
+    },
     "2020": {
       "title": "Frontend Developer",
       "description": "Transitioning towards modern Single Page Applications.",
       "fullDescription": "I specialized in React, managing application state and integrating REST APIs for dynamic dashboards."
+    },
+    "2021": {
+      "title": "Junior Web Developer",
+      "description": "I primi passi nello sviluppo professionale.",
+      "fullDescription": "Ho iniziato lavorando su siti vetrina e piccoli e-commerce, focalizzandomi sulla pulizia del codice HTML e sulla compatibilità cross-browser."
     },
     "2022": {
       "title": "Fullstack Web Engineer",
