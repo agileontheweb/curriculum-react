@@ -1,0 +1,19 @@
+<!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="161.43px" height="139.8px" viewBox="0 0 161.43 139.8" style="overflow:visible;enable-background:new 0 0 161.43 139.8;"
+	 xml:space="preserve">
+<defs>
+	<linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+		<stop offset="0%" style="stop-color:#e5e7eb;stop-opacity:1" />
+		<stop offset="25%" style="stop-color:#d1d5db;stop-opacity:1" />
+		<stop offset="50%" style="stop-color:#9ca3af;stop-opacity:1" />
+		<stop offset="75%" style="stop-color:#6b7280;stop-opacity:1" />
+		<stop offset="100%" style="stop-color:#4b5563;stop-opacity:1" />
+	</linearGradient>
+</defs>
+<g>
+	<polygon fill="url(#logoGradient)" points="80.71,62.96 80.71,0 161.43,139.8 125.08,139.8 	"/>
+	<polygon fill="url(#logoGradient)" points="36.35,139.8 0,139.8 80.71,0 80.71,62.96 	"/>
+	<polygon fill="url(#logoGradient)" points="80.71,110.35 63.71,139.8 80.71,139.8 97.72,139.8 	"/>
+</g>
+</svg>
