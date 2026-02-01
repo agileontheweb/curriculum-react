@@ -1,0 +1,27 @@
+@layer components {
+  .sidemenu-overlay {
+    @apply fixed inset-0 z-100 bg-agile-navy/60 backdrop-blur-md hidden opacity-0;
+  }
+
+  .sidemenu-drawer {
+    @apply fixed top-0 right-0 h-screen w-full md:w-[450px] bg-agile-navy/95 border-l border-white/10 z-[101] 
+           p-10 flex flex-col justify-center translate-x-full shadow-2xl;
+  }
+
+  .nav-link-list {
+    @apply flex flex-col gap-10;
+  }
+
+  .nav-link-item {
+    @apply text-xl  font-black text-white hover:text-agile-sky transition-colors 
+           flex flex-col opacity-0 translate-x-10 cursor-pointer;
+  }
+
+  .nav-link-number {
+    @apply text-agile-sky text-sm font-mono mb-2;
+  }
+
+  .nav-link-text {
+    @apply tracking-tighter uppercase italic;
+  }
+}
