@@ -18,7 +18,6 @@ function App() {
   const presentationRef = useRef();
   const isScrollingRef = useRef(false);
 
-  // Esperienze sempre in ordine decrescente (dal più recente)
   const sortedExperiences = useMemo(() => {
     return [...initialExperiences].sort((a, b) => b.id - a.id);
   }, []);
@@ -27,10 +26,7 @@ function App() {
 
   const handleOpenPresentation = () => presentationRef.current?.open();
   useEffect(() => {
-    if (isScrollingRef.current) return;
-
     const activeDot = sidebarRef.current?.querySelector('.dot-active');
-
     if (activeDot) {
       activeDot.scrollIntoView({
         behavior: 'smooth',
@@ -40,9 +36,8 @@ function App() {
     }
   }, [selectedId]);
 
+  // ScrollTrigger per cambiare ID mentre si scrolla
   useGSAP(() => {
-    ScrollTrigger.getAll().forEach(t => t.kill());
-
     const cards = gsap.utils.toArray('.experience-wrapper');
     cards.forEach((card) => {
       ScrollTrigger.create({
@@ -51,6 +46,7 @@ function App() {
         start: "top 250px",
         end: "bottom 250px",
         onToggle: (self) => {
+          // Cambio ID solo se l'utente sta scrollando a mano
           if (self.isActive && !isScrollingRef.current) {
             setSelectedId(Number(card.dataset.id));
           }
@@ -60,14 +56,12 @@ function App() {
   }, []);
 
   const handleTimelineClick = (id) => {
-    const targetCard = document.querySelector(`[data-id="${id}"]`);
+    const targetCard = scrollContainerRef.current?.querySelector(`[data-id="${id}"]`);
     if (targetCard) {
       isScrollingRef.current = true;
       setSelectedId(id);
 
-      const isMobile = window.innerWidth < 768;
-      const offset = isMobile ? 180 : 100;
-
+      const offset = window.innerWidth < 768 ? 180 : 100;
       const targetPosition = targetCard.offsetTop - offset;
 
       scrollContainerRef.current?.scrollTo({
@@ -75,29 +69,18 @@ function App() {
         behavior: 'smooth'
       });
 
+      // Sbloccare lo ScrollTrigger dopo che l'animazione è finita
       setTimeout(() => {
-        const activeDot = sidebarRef.current?.querySelector(`[data-year="${id}"]`)?.closest('.timeline-item');
-        if (activeDot) {
-          activeDot.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-            inline: 'center',
-          });
-        }
-
-        setTimeout(() => {
-          isScrollingRef.current = false;
-        }, 1000);
-      }, 100);
+        isScrollingRef.current = false;
+      }, 800);
     }
   };
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans">
-      <Navbar />
-      <main className="flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden">
+      <Navbar onOpenPresentation={handleOpenPresentation} />
 
-        {/* Sidebar con Timeline */}
+      <main className="flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden">
         <aside
           ref={sidebarRef}
           className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar"
@@ -111,17 +94,16 @@ function App() {
           </div>
         </aside>
 
-        {/* Content Section */}
         <section
           ref={scrollContainerRef}
-          className="flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8"
+          className="flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 scroll-smooth"
         >
           <div>
             {sortedExperiences.map((exp) => (
               <div
                 key={exp.id}
                 data-id={exp.id}
-                className="experience-wrapper transition-opacity duration-500 scroll-mt-44 md:scroll-mt-24 mb-24"
+                className="experience-wrapper transition-opacity duration-500 mb-24"
                 style={{ opacity: selectedId === exp.id ? 1 : 0.4 }}
               >
                 <ExperienceContent experience={exp} />
@@ -130,6 +112,7 @@ function App() {
           </div>
         </section>
       </main>
+
       <Presentation ref={presentationRef} />
       <Footer />
     </div>
