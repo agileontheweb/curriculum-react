@@ -21,36 +21,26 @@ export default function Navbar() {
 
   useGSAP(() => {
     const tl = gsap.timeline({
-      delay: 0.5,
-      repeat: -1,
-      repeatDelay: 2
+      delay: 0.2
     });
 
     tl.to(textRef.current, {
-      duration: 1.5,
-      text: "Alessandro Cuoghi",
+      duration: 0.6,
+      text: "Curriculum 2026",
       ease: "none",
     })
       .to({}, { duration: 2 })
       .to(textRef.current, {
-        duration: 1,
+        duration: 0.8,
         text: "Agileontheweb",
         ease: "power2.inOut",
       })
       .to({}, { duration: 2 })
       .to(textRef.current, {
-        duration: 1,
-        text: "Curriculum 2026",
-        ease: "power2.inOut",
-      })
-      .to({}, { duration: 2 })
-      .to(textRef.current, {
-        duration: 1.2,
+        duration: 0.8,
         text: "Alessandro Cuoghi",
         ease: "power2.inOut",
       })
-      .to({}, { duration: 3 });
-
   }, []);
 
   const handleLangSelect = (langCode) => {
