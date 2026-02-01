@@ -23,10 +23,6 @@
     @apply flex items-center gap-3 justify-end;
   }
 
-  .navbar-cta {
-    @apply bg-agile-sky hover:brightness-110 text-white text-sm font-bold px-5 py-2 rounded-full 
-           transition-all duration-300 shadow-lg shadow-agile-sky/20 active:scale-95;
-  }
 
   .language-dropdown {
     @apply relative;
