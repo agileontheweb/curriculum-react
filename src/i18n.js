@@ -2,28 +2,19 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+import itTranslation from './locales/it.json';
+import enTranslation from './locales/en.json';
+import esTranslation from './locales/es.json';
 
 const resources = {
   it: {
-    translation: {
-      navbar: { home: "Home", experiences: "Esperienze", contacts: "Contatti" },
-      common: { close: "Chiudi", view: "Vedi Progetto" },
-      experiences: {}
-    }
+    translation: itTranslation
   },
   en: {
-    translation: {
-      navbar: { home: "Home", experiences: "Experiences", contacts: "Contact" },
-      common: { close: "Close", view: "View Project" },
-      experiences: {}
-    }
+    translation: enTranslation
   },
   es: {
-    translation: {
-      navbar: { home: "Inicio", experiences: "Experiencias", contacts: "Contacto" },
-      common: { close: "Cerrar", view: "Ver Proyecto" },
-      experiences: {}
-    }
+    translation: esTranslation
   }
 };
 
@@ -33,6 +24,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'it',
+    debug: true,
     interpolation: {
       escapeValue: false
     }

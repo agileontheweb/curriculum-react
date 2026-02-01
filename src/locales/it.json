@@ -1,0 +1,39 @@
+{
+  "navbar": {
+    "home": "Home",
+    "experiences": "Esperienze",
+    "contacts": "Contatti",
+    "contact_title": "Inviami un messaggio"
+  },
+  "common": {
+    "close": "Chiudi",
+    "view_project": "Vedi Progetto"
+  },
+  "experiences": {
+    "2018": {
+      "title": "Junior Web Developer",
+      "description": "I primi passi nello sviluppo professionale.",
+      "fullDescription": "Ho iniziato lavorando su siti vetrina e piccoli e-commerce, focalizzandomi sulla pulizia del codice HTML e sulla compatibilità cross-browser."
+    },
+    "2020": {
+      "title": "Frontend Developer",
+      "description": "Transizione verso le moderne Single Page Applications.",
+      "fullDescription": "Mi sono specializzato in React, gestendo lo stato delle applicazioni e integrando API REST per dashboard dinamiche."
+    },
+    "2022": {
+      "title": "Fullstack Web Engineer",
+      "description": "Sviluppo di soluzioni end-to-end.",
+      "fullDescription": "Ho approfondito l'ecosistema JavaScript lato server, creando database scalabili e architetture cloud per startup."
+    },
+    "2024": {
+      "title": "Senior UI/UX Specialist",
+      "description": "Focus sulla performance e sull'esperienza utente.",
+      "fullDescription": "Ottimizzazione dei tempi di caricamento e implementazione di sistemi di design complessi per migliorare la conversione degli utenti."
+    },
+    "2026": {
+      "title": "React Specialist",
+      "description": "Ho fatto questo in italiano",
+      "fullDescription": "Responsabile dell'architettura frontend per una piattaforma SaaS ad alto traffico. L'implementazione di Next.js 14 con il nuovo App Router ha permesso di ottimizzare i Core Web Vitals..."
+    }
+  }
+}
