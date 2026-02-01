@@ -9,7 +9,7 @@ import logo from '../assets/logo-agileontheweb-gradient.svg';
 
 gsap.registerPlugin(TextPlugin);
 
-export default function Navbar() {
+export default function Navbar({ onOpenPresentation }) {
   const { t, i18n } = useTranslation();
 
   // Refs
@@ -24,12 +24,22 @@ export default function Navbar() {
   const currentLang = i18n.language?.split('-')[0] || 'it';
 
   const navLinks = [
-    { labelKey: 'navbar.presentation', href: '#presentazione' },
-    { labelKey: 'navbar.experiences', href: '#curriculum' },
-    { labelKey: 'navbar.contacts', href: '#contatti' }
+    {
+      labelKey: 'navbar.presentation',
+      onClick: () => onCloseMenu(() => onOpenPresentation()) // Chiude e poi apre
+    },
+    {
+      labelKey: 'navbar.github',
+      href: '#curriculum',
+      onClick: () => onCloseMenu()
+    },
+    {
+      labelKey: 'navbar.contacts',
+      href: '#contatti',
+      onClick: () => onCloseMenu()
+    }
   ];
 
-  // Animazione Testo (Tua esistente)
   useGSAP(() => {
     const tl = gsap.timeline({ delay: 0.2 });
     tl.to(textRef.current, { duration: 0.6, text: "Curriculum 2026", ease: "none" })
@@ -39,7 +49,6 @@ export default function Navbar() {
       .to(textRef.current, { duration: 0.8, text: "Alessandro Cuoghi", ease: "power2.inOut" });
   }, []);
 
-  // Animazioni GSAP per Sidebar (Atomizzate con contextSafe)
   const { contextSafe } = useGSAP({ scope: sidebarRef });
 
   const onOpenMenu = contextSafe(() => {
@@ -57,9 +66,14 @@ export default function Navbar() {
       }, "-=0.2");
   });
 
-  const onCloseMenu = contextSafe(() => {
+  const onCloseMenu = contextSafe((callback) => {
     const tl = gsap.timeline({
-      onComplete: () => setIsMenuOpen(false)
+      onComplete: () => {
+        setIsMenuOpen(false);
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      }
     });
 
     tl.to(".nav-link-item", { opacity: 0, x: 50, duration: 0.2, stagger: 0.05 })
@@ -113,8 +127,6 @@ export default function Navbar() {
                 )}
               </div>
 
-
-              {/* Hamburger Icon */}
               <button className="hamburger-btn" onClick={onOpenMenu}>
                 <HiBars3BottomRight className="w-8 h-8 md:w-9 md:h-9" />
               </button>
@@ -124,7 +136,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Componente Sidebar atomizzato */}
       <Sidebar
         ref={sidebarRef}
         onClose={onCloseMenu}

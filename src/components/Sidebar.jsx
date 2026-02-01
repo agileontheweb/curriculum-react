@@ -25,13 +25,25 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
         <nav className="nav-link-list">
           {links.map((link, index) => {
             const displayNumber = (index + 1).toString().padStart(2, '0');
+            const isExternal = link.href?.startsWith('http');
 
             return (
               <a
                 key={index}
-                href={link.href}
+                href={link.href || '#'}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
                 className="nav-link-item group"
-                onClick={onClose}
+                onClick={(e) => {
+                  if (link.onClick) {
+                    e.preventDefault();
+                    link.onClick();
+                    onClose();
+                  } else if (!isExternal) {
+                    e.preventDefault();
+                    onClose();
+                  }
+                }}
               >
                 <span className="nav-link-number">
                   {displayNumber}.

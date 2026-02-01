@@ -1,7 +1,7 @@
 {
   "navbar": {
     "home": "Home",
-    "experiences": "Experiences",
+    "github": "Github",
     "contacts": "Contacts",
     "presentation": "Presentation",
     "contact_title": "Send me a message"
@@ -9,6 +9,14 @@
   "common": {
     "close": "Close",
     "view_project": "View Project"
+  },
+  "presentation": {
+    "title": "About Me",
+    "about_me": "I am Alessandro Cuoghi, a developer specialized in creating digital interfaces that blend design and performance. My approach is based on Agile, focusing on clean code and user experience.",
+    "philosophy_title": "My Philosophy",
+    "videoId": "K9XDq270l40",
+    "philosophy": "I don't just write code; I build bridges between business needs and user expectations, using modern technologies to ensure scalability and fluidity.",
+    "tech_title": "Core Tech"
   },
   "footer": {
     "all_rights": "All rights reserved"
