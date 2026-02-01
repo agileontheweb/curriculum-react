@@ -3,7 +3,7 @@ import { HiOutlineBuildingOffice2, HiOutlineCommandLine, HiArrowsPointingOut } f
 import ExperienceModal from './ExperienceModal';
 import { useTranslation } from 'react-i18next';
 
-const ExperienceContent = forwardRef(({ experience }, ref) => {
+const ExperienceContent = forwardRef(({ experience, ...props }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -12,9 +12,12 @@ const ExperienceContent = forwardRef(({ experience }, ref) => {
 
   return (
     <>
-      <div className="content-section">
+      <div
+        ref={ref}
+        {...props} // Questo serve per ricevere data-id e style da App.jsx
+        className="content-section mb-24 transition-opacity duration-500"
+      >
         <div
-          ref={ref}
           onClick={() => setIsOpen(true)}
           className="experience-card group cursor-pointer relative"
         >
@@ -50,7 +53,6 @@ const ExperienceContent = forwardRef(({ experience }, ref) => {
         </div>
       </div>
 
-      {/* Il modale viene montato solo quando serve */}
       {isOpen && (
         <ExperienceModal
           experience={experience}
@@ -61,4 +63,5 @@ const ExperienceContent = forwardRef(({ experience }, ref) => {
   );
 });
 
+// FONDAMENTALE:
 export default ExperienceContent;

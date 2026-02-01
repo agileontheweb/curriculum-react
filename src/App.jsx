@@ -16,18 +16,22 @@ function App() {
   const scrollContainerRef = useRef();
   const presentationRef = useRef();
   const isScrollingRef = useRef(false);
+  const cardsRef = useRef({});
 
   const sortedExperiences = useMemo(() => {
     return [...initialExperiences].sort((a, b) => b.id - a.id);
   }, []);
 
   const [selectedId, setSelectedId] = useState(sortedExperiences[0].id);
+
   const handleOpenPresentation = () => presentationRef.current?.open();
 
-  // Logica GSAP e Scroll rimane qui per ora
   useGSAP(() => {
-    const cards = gsap.utils.toArray('.experience-wrapper');
+    const cards = Object.values(cardsRef.current);
+
     cards.forEach((card) => {
+      if (!card) return;
+
       ScrollTrigger.create({
         trigger: card,
         scroller: scrollContainerRef.current,
@@ -35,21 +39,28 @@ function App() {
         end: "bottom 250px",
         onToggle: (self) => {
           if (self.isActive && !isScrollingRef.current) {
-            setSelectedId(Number(card.dataset.id));
+            setSelectedId(Number(card.getAttribute('data-id')));
           }
         },
       });
     });
-  }, []);
+  }, [sortedExperiences]);
 
   const handleTimelineClick = (id) => {
-    const targetCard = scrollContainerRef.current?.querySelector(`[data-id="${id}"]`);
+    const targetCard = cardsRef.current[id];
+
     if (targetCard) {
       isScrollingRef.current = true;
       setSelectedId(id);
+
       const offset = window.innerWidth < 768 ? 180 : 100;
       const targetPosition = targetCard.offsetTop - offset;
-      scrollContainerRef.current?.scrollTo({ top: targetPosition, behavior: 'smooth' });
+
+      scrollContainerRef.current?.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+
       setTimeout(() => { isScrollingRef.current = false; }, 800);
     }
   };
@@ -69,17 +80,19 @@ function App() {
           </div>
         </aside>
 
-        <section ref={scrollContainerRef} className="flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 scroll-smooth">
+        <section
+          ref={scrollContainerRef}
+          className="flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 scroll-smooth"
+        >
           <div>
             {sortedExperiences.map((exp) => (
-              <div
+              <ExperienceContent
                 key={exp.id}
+                ref={el => cardsRef.current[exp.id] = el}
+                experience={exp}
                 data-id={exp.id}
-                className="experience-wrapper transition-opacity duration-500 mb-24"
                 style={{ opacity: selectedId === exp.id ? 1 : 0.4 }}
-              >
-                <ExperienceContent experience={exp} />
-              </div>
+              />
             ))}
           </div>
         </section>
