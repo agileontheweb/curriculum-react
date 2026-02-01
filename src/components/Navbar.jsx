@@ -4,13 +4,20 @@ import gsap from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { HiEnvelope, HiChevronDown } from "react-icons/hi2";
 import logo from '../assets/logo-agileontheweb-gradient.svg';
-
+import { useTranslation } from 'react-i18next';
 gsap.registerPlugin(TextPlugin);
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation();
   const textRef = useRef();
   const [selectedLang, setSelectedLang] = useState('ITA');
   const [isLangOpen, setIsLangOpen] = useState(false);
+
+  const langLabels = {
+    it: 'ITA',
+    en: 'ENG',
+    es: 'ESP'
+  };
 
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -46,10 +53,11 @@ export default function Navbar() {
 
   }, []);
 
-  const handleLangSelect = (lang) => {
-    setSelectedLang(lang);
+  const handleLangSelect = (langCode) => {
+    i18n.changeLanguage(langCode);
     setIsLangOpen(false);
   };
+  const currentLang = i18n.language?.split('-')[0] || 'it';
 
   return (
     <nav className="navbar">
@@ -68,27 +76,28 @@ export default function Navbar() {
                 className="language-trigger"
                 onClick={() => setIsLangOpen(!isLangOpen)}
               >
-                <span>{selectedLang}</span>
+                {/* Mostra la label corretta in base alla lingua attiva in i18n */}
+                <span>{langLabels[currentLang] || 'ITA'}</span>
                 <HiChevronDown className={`w-4 h-4 transition-transform duration-300 ${isLangOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {isLangOpen && (
                 <div className="language-menu">
                   <button
-                    className={`language-option ${selectedLang === 'ITA' ? 'active' : ''}`}
-                    onClick={() => handleLangSelect('ITA')}
+                    className={`language-option ${currentLang === 'it' ? 'active' : ''}`}
+                    onClick={() => handleLangSelect('it')}
                   >
                     ITA
                   </button>
                   <button
-                    className={`language-option ${selectedLang === 'ENG' ? 'active' : ''}`}
-                    onClick={() => handleLangSelect('ENG')}
+                    className={`language-option ${currentLang === 'en' ? 'active' : ''}`}
+                    onClick={() => handleLangSelect('en')}
                   >
                     ENG
                   </button>
                   <button
-                    className={`language-option ${selectedLang === 'ESP' ? 'active' : ''}`}
-                    onClick={() => handleLangSelect('ESP')}
+                    className={`language-option ${currentLang === 'es' ? 'active' : ''}`}
+                    onClick={() => handleLangSelect('es')}
                   >
                     ESP
                   </button>

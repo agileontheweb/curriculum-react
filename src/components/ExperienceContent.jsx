@@ -1,11 +1,14 @@
 import { useState, forwardRef } from 'react';
 import { HiOutlineBuildingOffice2, HiOutlineCommandLine, HiArrowsPointingOut } from "react-icons/hi2";
 import ExperienceModal from './ExperienceModal';
+import { useTranslation } from 'react-i18next';
 
 const ExperienceContent = forwardRef(({ experience }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   if (!experience) return null;
+  const expKey = `experiences.${experience.year}`;
 
   return (
     <>
@@ -21,16 +24,20 @@ const ExperienceContent = forwardRef(({ experience }, ref) => {
 
           <span className="experience-year-label">{experience.year}</span>
           <h2 className="experience-title group-hover:text-agile-sky transition-colors">
-            {experience.title}
+            {t(`${expKey}.title`)}
           </h2>
 
           <div className="flex items-center gap-2 mt-2 opacity-80">
             <HiOutlineBuildingOffice2 className="text-agile-sky w-5 h-5" />
-            <p className="experience-company !mt-0">{experience.company}</p>
+            <p className="experience-company !mt-0">
+              {experience.company}
+            </p>
           </div>
 
           <div className="experience-divider"></div>
-          <p className="experience-description line-clamp-3">{experience.description}</p>
+          <p className="experience-description line-clamp-3">
+            {t(`${expKey}.description`)}
+          </p>
 
           <div className="skills-container">
             {experience.skills.slice(0, 4).map(skill => (
