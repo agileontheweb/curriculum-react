@@ -1,0 +1,19 @@
+@layer components {
+  .presentation-wrapper {
+    /* h-screen e fixed lo tengono bloccato, overflow-y-auto permette lo scroll */
+    @apply fixed left-0 top-0 w-0 h-screen bg-white text-agile-navy z-[110] overflow-y-auto overflow-x-hidden;
+    visibility: hidden;
+    -webkit-overflow-scrolling: touch; /* Rende lo scroll fluido su iOS */
+  }
+
+  .presentation-content {
+    @apply opacity-0 p-8 md:p-20 max-w-7xl mx-auto w-full pt-24 md:pt-32 pb-20;
+  }
+
+  .presentation-close {
+    /* Deve essere fixed per non sparire quando scrolli giù */
+    @apply fixed top-6 right-6 md:top-10 md:right-10 text-agile-navy p-2 cursor-pointer bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-slate-100;
+    z-index: 130;
+    opacity: 0;
+  }
+}

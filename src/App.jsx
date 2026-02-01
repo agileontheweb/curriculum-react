@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
 import Timeline from './components/Timeline';
 import ExperienceContent from './components/ExperienceContent';
+import Presentation from './components/Presentation';
 import Footer from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const scrollContainerRef = useRef();
   const sidebarRef = useRef();
+  const presentationRef = useRef();
   const isScrollingRef = useRef(false);
 
   // Esperienze sempre in ordine decrescente (dal più recente)
@@ -23,6 +25,7 @@ function App() {
 
   const [selectedId, setSelectedId] = useState(sortedExperiences[0].id);
 
+  const handleOpenPresentation = () => presentationRef.current?.open();
   useEffect(() => {
     if (isScrollingRef.current) return;
 
@@ -127,6 +130,7 @@ function App() {
           </div>
         </section>
       </main>
+      <Presentation ref={presentationRef} />
       <Footer />
     </div>
   );
