@@ -1,10 +1,8 @@
-import { HiChevronUp, HiChevronDown } from "react-icons/hi2";
+import { useTranslation } from 'react-i18next';
 
 export default function Timeline({ experiences, selectedId, onSelect }) {
   return (
-    <div className="timeline-container">
-
-
+    <div className="timeline-container no-scrollbar">
       <div className="timeline-list">
         {experiences.map((exp) => {
           const isActive = selectedId === exp.id;
@@ -14,6 +12,7 @@ export default function Timeline({ experiences, selectedId, onSelect }) {
               key={exp.id}
               onClick={() => onSelect(exp.id)}
               className="timeline-item group"
+              data-year={exp.id}
             >
               <span className={`timeline-year ${isActive ? 'text-agile-sky font-bold' : 'text-slate-600'} transition-all`}>
                 {exp.year}

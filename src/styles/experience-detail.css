@@ -30,7 +30,7 @@
 
   /* Body Scrollabile */
   .detail-content-body {
-    @apply p-6 md:p-12 overflow-y-auto custom-scrollbar bg-slate-900/50 flex-1;
+    @apply p-6 md:p-12 overflow-y-auto  bg-slate-900/50 flex-1;
   }
 
   .detail-rich-text {

@@ -5,22 +5,6 @@
 @import "./styles/experience-detail.css";
 @import "./styles/footer.css";
 
-@utility custom-scrollbar {
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    &:hover {
-      background: rgba(14, 165, 233, 0.4); /* agile-sky */
-    }
-  }
-}
-
 @theme {
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --color-agile-sky: #0ea5e9;
@@ -28,18 +12,14 @@
   --color-agile-glow: rgba(14, 165, 233, 0.15);
 }
 
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 body {
   @apply bg-agile-navy text-white overflow-hidden h-screen;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-agile-sky/40 transition-colors;
 }

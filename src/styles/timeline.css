@@ -1,28 +1,42 @@
 @layer components {
   .timeline-container {
-    @apply relative flex flex-col items-center w-16 md:w-24 shrink-0;
+    @apply relative flex flex-row md:flex-col items-center w-full md:w-20 shrink-0;
   }
 
   .timeline-list {
-    @apply relative z-10 flex flex-col gap-12 w-full py-10;
+    @apply relative z-10 flex flex-row md:flex-col gap-8 md:gap-12 py-4 md:py-4 items-center;
+    @apply pr-10 md:px-0; 
   }
 
+
+  /* LINEA MOBILE ORIZZONTALE - ancorata al contenuto */
   .timeline-list::before {
     content: '';
-    @apply absolute left-1/2 w-px bg-white/10 -translate-x-1/2;
-    top: 40px;
-    bottom: 40px;
-    z-index: 0;
+    @apply absolute bg-white/10 z-0;
+    top: calc(50% + 10px);
+    left: 32.5px;
+    right: calc(40px + 32.5px);
+    height: 1px;
+    transform: translateY(-50%);
   }
 
-  .timeline-item {
-    @apply relative flex flex-col items-center py-2;
+  /* RESET PER DESKTOP - linea verticale */
+  @media (min-width: 768px) {
+    .timeline-list::before {
+      @apply left-1/2 w-px -translate-x-1/2 bg-white/10;
+      /* Calcolo: padding dell'item (py-2 = 8px) + metà altezza dot (1.75px) + metà mb-1 (2px) */
+      top: 28px;
+      bottom: 28px;
+      height: auto;
+      right: auto;
+      transform: translateX(-50%);
+    }
   }
   
-  .timeline-item:hover .timeline-dot {
-    @apply border-agile-sky;
+  .timeline-item {
+    @apply relative flex flex-col items-center py-2 shrink-0 cursor-pointer min-w-[65px] md:min-w-0;
   }
-
+  
   .timeline-year {
     @apply text-[10px] md:text-xs font-bold mb-1 transition-colors uppercase tracking-tight select-none;
   }
@@ -36,22 +50,6 @@
   }
 
   .dot-inactive {
-    @apply bg-agile-navy border-white/20 hover:border-agile-sky/60;
-  }
-}
-
-@layer utilities {
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 0px rgba(14, 165, 233, 0);
-      transform: scale(1);
-    }
-    50% {
-      box-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
-      transform: scale(1.05);
-    }
-  }
-  .animate-pulse-glow {
-    animation: pulse-glow 2s infinite ease-in-out;
+    @apply bg-agile-navy border-white/20;
   }
 }
