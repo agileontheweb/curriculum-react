@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { experiences as initialExperiences } from './data';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -14,9 +14,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const scrollContainerRef = useRef();
-  const sidebarRef = useRef();
   const presentationRef = useRef();
   const isScrollingRef = useRef(false);
+  const cardsRef = useRef({});
 
   const sortedExperiences = useMemo(() => {
     return [...initialExperiences].sort((a, b) => b.id - a.id);
@@ -25,38 +25,30 @@ function App() {
   const [selectedId, setSelectedId] = useState(sortedExperiences[0].id);
 
   const handleOpenPresentation = () => presentationRef.current?.open();
-  useEffect(() => {
-    const activeDot = sidebarRef.current?.querySelector('.dot-active');
-    if (activeDot) {
-      activeDot.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
-      });
-    }
-  }, [selectedId]);
 
-  // ScrollTrigger per cambiare ID mentre si scrolla
   useGSAP(() => {
-    const cards = gsap.utils.toArray('.experience-wrapper');
+    const cards = Object.values(cardsRef.current);
+
     cards.forEach((card) => {
+      if (!card) return;
+
       ScrollTrigger.create({
         trigger: card,
         scroller: scrollContainerRef.current,
         start: "top 250px",
         end: "bottom 250px",
         onToggle: (self) => {
-          // Cambio ID solo se l'utente sta scrollando a mano
           if (self.isActive && !isScrollingRef.current) {
-            setSelectedId(Number(card.dataset.id));
+            setSelectedId(Number(card.getAttribute('data-id')));
           }
         },
       });
     });
-  }, []);
+  }, [sortedExperiences]);
 
   const handleTimelineClick = (id) => {
-    const targetCard = scrollContainerRef.current?.querySelector(`[data-id="${id}"]`);
+    const targetCard = cardsRef.current[id];
+
     if (targetCard) {
       isScrollingRef.current = true;
       setSelectedId(id);
@@ -69,10 +61,7 @@ function App() {
         behavior: 'smooth'
       });
 
-      // Sbloccare lo ScrollTrigger dopo che l'animazione è finita
-      setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 800);
+      setTimeout(() => { isScrollingRef.current = false; }, 800);
     }
   };
 
@@ -81,10 +70,7 @@ function App() {
       <Navbar onOpenPresentation={handleOpenPresentation} />
 
       <main className="flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden">
-        <aside
-          ref={sidebarRef}
-          className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar"
-        >
+        <aside className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar">
           <div className="flex-1 w-full">
             <Timeline
               experiences={sortedExperiences}
@@ -100,14 +86,13 @@ function App() {
         >
           <div>
             {sortedExperiences.map((exp) => (
-              <div
+              <ExperienceContent
                 key={exp.id}
+                ref={el => cardsRef.current[exp.id] = el}
+                experience={exp}
                 data-id={exp.id}
-                className="experience-wrapper transition-opacity duration-500 mb-24"
                 style={{ opacity: selectedId === exp.id ? 1 : 0.4 }}
-              >
-                <ExperienceContent experience={exp} />
-              </div>
+              />
             ))}
           </div>
         </section>

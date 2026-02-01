@@ -1,8 +1,21 @@
-import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from 'react';
 
 export default function Timeline({ experiences, selectedId, onSelect }) {
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    const activeItem = scrollRef.current?.querySelector('.dot-active');
+    if (activeItem) {
+      activeItem.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  }, [selectedId]);
+
   return (
-    <div className="timeline-container no-scrollbar">
+    <div ref={scrollRef} className="timeline-container no-scrollbar">
       <div className="timeline-list">
         {experiences.map((exp) => {
           const isActive = selectedId === exp.id;
