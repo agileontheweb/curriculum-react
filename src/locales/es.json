@@ -1,7 +1,7 @@
 {
   "navbar": {
     "home": "Inicio",
-    "experiences": "Experiencias",
+    "github": "Github",
     "contacts": "Contactos",
     "presentation": "Presentacion",
     "contact_title": "Enviame un mensaje"
@@ -9,6 +9,14 @@
   "common": {
     "close": "Cerrar",
     "view_project": "Ver Proyecto"
+  },
+  "presentation": {
+    "title": "Sobre mí",
+    "about_me": "Soy Alessandro Cuoghi, un desarrollador especializado en la creación de interfaces digitales que combinan diseño y rendimiento. Mi enfoque se basa en metodologías Agile, priorizando la limpieza del código y la experiencia del usuario.",
+    "philosophy_title": "Mi Filosofía",
+    "videoId": "K9XDq270l40",
+    "philosophy": "No me limito a escribir código; construyo puentes entre las necesidades de negocio y las expectativas de los usuarios, utilizando las tecnologías más modernas para garantizar escalabilidad y fluidez.",
+    "tech_title": "Core Tech"
   },
   "footer": {
     "all_rights": "Tutti i diritti riservati"

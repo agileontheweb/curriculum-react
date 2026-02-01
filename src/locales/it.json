@@ -1,7 +1,7 @@
 {
   "navbar": {
     "home": "Home",
-    "experiences": "Esperienze",
+    "github": "Github",
     "contacts": "Contatti",
     "presentation": "Presentazione",
     "contact_title": "Inviami un messaggio"
@@ -9,6 +9,15 @@
   "common": {
     "close": "Chiudi",
     "view_project": "Vedi Progetto"
+  },
+  "presentation": {
+    "title": "Chi Sono",
+    "about_me": "Sono Alessandro Cuoghi...",
+    "videoId": "K9XDq270l40",
+    "philosophy_title": "La mia Filosofia",
+    "philosophy": "Non mi limito a scrivere codice...",
+    "extra_text": "Qui puoi inserire il nuovo testo che vuoi far apparire sotto la filosofia.",
+    "tech_title": "Core Tech"
   },
   "footer": {
     "all_rights": "Tutti i diritti riservati"
