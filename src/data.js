@@ -14,4 +14,14 @@ export const experiences = [
   { id: 13, year: "2022", title: "Frontend Animator", company: "Studio", description: "Animazioni con Svelte e GSAP.", skills: ["Svelte", "GSAP"] },
   { id: 14, year: "2024", title: "React Specialist", company: "Curriculum", description: "Mastering React e Next.js.", skills: ["React", "Next.js"] },
   { id: 15, year: "2026", title: "Senior Engineer", company: "Future", description: "Progetti futuri e innovazione.", skills: ["Three.js", "AI"] },
+    id: 15,
+    year: "2026",
+    title: "React Specialist",
+    company: "AgileOnTheWeb",
+    description: "Mastering React 19, Server Components e Next.js App Router.",
+    fullDescription: "Responsabile dell'architettura frontend per una piattaforma SaaS ad alto traffico. L'implementazione di Next.js 14 con il nuovo App Router ha permesso di ottimizzare i Core Web Vitals, portando il LCP sotto i 1.2 secondi. Ho gestito la migrazione di una complessa dashboard da client-side rendering a Server Components, riducendo drasticamente il JavaScript inviato al browser. Abbiamo inoltre integrato un sistema di design atomico utilizzando Tailwind CSS per garantire coerenza visiva e velocità di sviluppo tra i diversi team.",
+    videoId: "K9XDq270l40",
+    projectUrl: "https://nextjs.org/",
+    skills: ["React 19", "Next.js", "Tailwind", "TypeScript"]
+  },
 ];

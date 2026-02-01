@@ -2,6 +2,7 @@
 @import "./styles/navbar.css";
 @import "./styles/timeline.css";
 @import "./styles/experience-content.css";
+@import "./styles/experience-detail.css";
 
 @theme {
   --font-sans: "Plus Jakarta Sans", sans-serif;
