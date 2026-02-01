@@ -9,7 +9,7 @@ export const experiences = [
   },
   {
     id: 2,
-    year: "2020",
+    year: "2019",
     company: "Digital Agency",
     videoId: "def67890",
     projectUrl: "https://example.com",
@@ -17,6 +17,22 @@ export const experiences = [
   },
   {
     id: 3,
+    year: "2020",
+    company: "Digital Agency",
+    videoId: "def67890",
+    projectUrl: "https://example.com",
+    skills: ["React", "SASS", "Firebase"]
+  },
+  {
+    id: 4,
+    year: "2021",
+    company: "Digital Agency",
+    videoId: "def67890",
+    projectUrl: "https://example.com",
+    skills: ["React", "SASS", "Firebase"]
+  },
+  {
+    id: 5,
     year: "2022",
     company: "Web Solutions",
     videoId: "ghi11223",
@@ -24,7 +40,7 @@ export const experiences = [
     skills: ["Vue.js", "Node.js", "MongoDB"]
   },
   {
-    id: 4,
+    id: 6,
     year: "2024",
     company: "Tech Innovation",
     videoId: "jkl44556",
@@ -32,7 +48,7 @@ export const experiences = [
     skills: ["Next.js", "TypeScript", "Prisma"]
   },
   {
-    id: 15, // Quello originale
+    id: 7,
     year: "2026",
     company: "AgileOnTheWeb",
     videoId: "K9XDq270l40",
