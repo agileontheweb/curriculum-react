@@ -8,6 +8,7 @@ import { HiArrowsUpDown } from "react-icons/hi2"; // Icona React
 import Navbar from './components/Navbar';
 import Timeline from './components/Timeline';
 import ExperienceContent from './components/ExperienceContent';
+import Footer from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -114,6 +115,7 @@ function App() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -9,6 +9,9 @@
     "close": "Chiudi",
     "view_project": "Vedi Progetto"
   },
+  "footer": {
+    "all_rights": "Tutti i diritti riservati"
+  },
   "experiences": {
     "2018": {
       "title": "Junior Web Developer",

@@ -3,6 +3,7 @@
 @import "./styles/timeline.css";
 @import "./styles/experience-content.css";
 @import "./styles/experience-detail.css";
+@import "./styles/footer.css";
 
 @utility custom-scrollbar {
   &::-webkit-scrollbar {
