@@ -63,52 +63,37 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-content">
-          <div className="navbar-brand">
+
+          <div className="navbar-brand flex items-center">
             <img src={logo} alt="Logo AgileOnTheWeb" className="navbar-logo" />
             <span className="navbar-title">
               <span ref={textRef}></span>
             </span>
           </div>
+
           <div className="navbar-actions">
-            {/* Dropdown Lingua */}
             <div className="language-dropdown">
               <button
                 className="language-trigger"
                 onClick={() => setIsLangOpen(!isLangOpen)}
               >
-                {/* Mostra la label corretta in base alla lingua attiva in i18n */}
                 <span>{langLabels[currentLang] || 'ITA'}</span>
                 <HiChevronDown className={`w-4 h-4 transition-transform duration-300 ${isLangOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {isLangOpen && (
                 <div className="language-menu">
-                  <button
-                    className={`language-option ${currentLang === 'it' ? 'active' : ''}`}
-                    onClick={() => handleLangSelect('it')}
-                  >
-                    ITA
-                  </button>
-                  <button
-                    className={`language-option ${currentLang === 'en' ? 'active' : ''}`}
-                    onClick={() => handleLangSelect('en')}
-                  >
-                    ENG
-                  </button>
-                  <button
-                    className={`language-option ${currentLang === 'es' ? 'active' : ''}`}
-                    onClick={() => handleLangSelect('es')}
-                  >
-                    ESP
-                  </button>
+                  <button className="language-option" onClick={() => handleLangSelect('it')}>ITA</button>
+                  <button className="language-option" onClick={() => handleLangSelect('en')}>ENG</button>
+                  <button className="language-option" onClick={() => handleLangSelect('es')}>ESP</button>
                 </div>
               )}
             </div>
-
-            <button className="navbar-cta">
+            <button className="navbar-cta hidden md:flex">
               <HiEnvelope className="w-5 h-5" />
             </button>
           </div>
+
         </div>
       </div>
     </nav>
