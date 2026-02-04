@@ -11,53 +11,250 @@
     "view_project": "Vedi Progetto"
   },
   "presentation": {
-    "title": "Chi Sono",
-    "about_me": "Sono Alessandro Cuoghi...",
+    "title": "Frontend Developer",
+    "intro": "Lavoro nel web dal 2000, ma sono diventato un vero frontend developer nel 2014 con la fondazione di Rock&RoR in Spagna. In questi anni ho attraversato l'intera evoluzione del web: da ActionScript e Flash agli stack moderni con React, Next.js e TypeScript.",
+    "intro_extended": "Non mi spaventa nessuna tecnologia: sono passato da ActionScript a HTML, PHP, jQuery, JavaScript puro, Ruby on Rails, Angular, Ionic, fino ad arrivare a React, Next.js, Svelte, Tailwind e Laravel. Mi adatto velocemente e mi butto in qualsiasi situazione, sia che si tratti di mantenere un vecchio progetto jQuery sia di costruire una Single Page Application da zero.\n\nCreo interfacce utente performanti e accessibili, con particolare attenzione a UX, animazioni fluide (GSAP), ottimizzazione Core Web Vitals e metodologie Agile apprese lavorando con startup e istituzioni pubbliche in Spagna.\n\nIn sintesi: mi metto dentro qualsiasi progetto, apprendo rapidamente e porto risultati concreti.",
+    "ai_evolution_title": "L'Evoluzione con le AI",
+    "ai_evolution": "Dal 2024, il mio approccio allo sviluppo è cambiato radicalmente. L'arrivo di ChatGPT, Claude, Gemini, Grok e altre AI generative ha trasformato il mio workflow: oggi non scrivo più ogni riga di codice a mano, ma delego gran parte della scrittura alle AI mentre mi concentro su supervisione, architettura e integrazione.\n\nAll'inizio mi sono sentito meno \"programmatore\". Dopo 20 anni passati a scrivere tutto manualmente, delegare alle AI mi dava la sensazione di perdere terreno e competenza. È un sentimento che molti sviluppatori della mia generazione stanno vivendo.\n\nMa ho capito che l'evoluzione non aspetta nessuno. Le AI non ci sostituiscono: ci liberano dalle task ripetitive per farci concentrare su ciò che conta davvero – risolvere problemi complessi, progettare architetture solide, garantire qualità e manutenibilità del codice. Il valore non è più nella velocità di scrittura, ma nella capacità di giudizio che deriva dall'esperienza.\n\nSo che non tutti sono d'accordo. I puristi pensano che si debba scrivere tutto a mano, che delegare alle AI significhi perdere controllo. Li capisco, perché anch'io ho avuto questi dubbi. Ma preferisco evolvere con il mercato piuttosto che restare aggrappato a metodologie del passato per principio.\n\nLe AI sono diventate il mio copilota: io resto il pilota. Decido la rotta, controllo che il codice sia corretto, ottimizzato e mantenibile. L'esperienza di 20+ anni mi permette di riconoscere immediatamente quando qualcosa non va – e questa competenza nessuna AI può sostituirla.",
+    "about_me_title": "Il Mio Percorso",
+    "about_me": "Il mio viaggio nel web è iniziato nel 2004 con Macromedia Flash e Freehand, quando il digitale era pura sperimentazione creativa. Con la co-fondazione di Dipnet Web Agency ho esplorato ogni angolo del multimedia: dalla suite Adobe completa (After Effects, Premiere, Photoshop, Illustrator, InDesign) alla modellazione 3D con Maya, 3D Studio Max e Cinema 4D.\n\nCon il declino di Flash, ho fatto la transizione verso lo sviluppo frontend puro, portando con me l'occhio per il design e l'amore per le animazioni che avevo coltivato negli anni del multimedia.\n\nNel 2012 ho fatto una scelta radicale: lasciare l'Italia per la Spagna. Sono partito per Minorca con l'obiettivo di diventare istruttore di sub, lavorando come marinaio al diving center e dando lezioni di Photoshop nel tempo libero. Ma la vita aveva altri piani.\n\nMi sono trasferito a Palma de Mallorca e, per integrarmi e imparare lo spagnolo, ho iniziato dal basso: lavapiatti, cameriere, barman al ristorante Claxon, fino a diventare intrattenitore. Ogni gradino mi ha insegnato qualcosa sulla resilienza e sull'umiltà.\n\nNel 2013 ho ripreso il filo della mia carriera tech con NifocNifum, occupandomi di marketing, design e sviluppo web. L'anno successivo, nel 2014, ho co-fondato Rock&RoR, un team di esperti Ruby on Rails. Sono stati 4 anni intensi e formativi: ho lavorato con startup innovative, sviluppato in Ruby on Rails, Ionic e Angular, e collaborato con istituzioni pubbliche come l'Ayuntamiento de Madrid e il progetto open source Consul Democracy. È qui che ho davvero abbracciato le metodologie Agile, lavorando fianco a fianco con professionisti eccezionali e mettendo tutto l'impegno in progetti che avevano un impatto reale sulla partecipazione cittadina.\n\nIn parallelo, nel 2015, ho ricoperto il ruolo di Amministratore Delegato di Bus&Walk, un progetto di comunicazione per turisti: una guida venduta sui bus di City Sightseeing che univa design, tecnologia e marketing territoriale.\n\nNel 2018 sono tornato in Italia per motivi familiari, lasciando Rock&RoR e l'ecosistema delle startup spagnole. Da allora lavoro come freelance, specializzandomi in tecnologie moderne come React, Next.js, TypeScript e Tailwind CSS. Anche se il contesto è diverso e non ho più trovato progetti con la stessa portata di quelli spagnoli, continuo a portare avanti la stessa passione e attenzione ai dettagli in ogni progetto che realizzo.",
     "videoId": "K9XDq270l40",
     "philosophy_title": "La mia Filosofia",
-    "philosophy": "Non mi limito a scrivere codice...",
-    "extra_text": "Qui puoi inserire il nuovo testo che vuoi far apparire sotto la filosofia.",
-    "tech_title": "Core Tech"
+    "philosophy": "Non mi limito a scrivere codice: creo esperienze. Ogni progetto è un'opportunità per fare le cose nel modo giusto, senza scorciatoie. Credo nel minimalismo applicato allo sviluppo: codice pulito, interfacce essenziali, performance ottimali.\n\nIl mio approccio metodico deriva dall'esperienza in progetti open source come Consul per il Comune di Madrid e dalla gestione di team in contesti internazionali. Le metodologie Agile apprese in Spagna hanno plasmato il mio modo di lavorare: iterazioni rapide, feedback continuo, focus sul valore reale per l'utente.\n\nOgni linea di codice che scrivo riflette l'attenzione ai dettagli che applico anche nello sport e nella vita quotidiana.",
+    "extra_text": "La mia metodologia si basa su tre principi fondamentali: semplicità, performance e accessibilità. Come sviluppatore frontend, cerco sempre il punto di equilibrio tra design accattivante e codice sostenibile. L'approccio minimalista mi permette di concentrarmi su ciò che conta davvero: risolvere problemi reali con soluzioni eleganti.\n\nPratico sport regolarmente perché credo che disciplina e costanza siano essenziali tanto nel fitness quanto nello sviluppo software. La mentalità da atleta mi aiuta ad affrontare le sfide tecniche con resilienza e determinazione.",
+    "tech_title": "Core Tech",
+    "tech_stack": "Ruby on Rails • React • Next.js • TypeScript • Tailwind CSS • GSAP • JavaScript ES6+ • Angular • Ionic • HTML5 • CSS3/SCSS • PHP • Laravel • Git • GitHub • Adobe Creative Suite • Responsive Design • Web Performance • Accessibility (WCAG) • Agile Methodologies"
   },
   "footer": {
     "all_rights": "Tutti i diritti riservati"
   },
   "experiences": {
+    "1994": {
+      "title": "Parrucchiere",
+      "description": "Assistente parrucchiere presso Gino-Guido.",
+      "fullDescription": "Primo impiego come assistente parrucchiere, dove ho imparato l'importanza dell'attenzione ai dettagli e del servizio al cliente."
+    },
+    "1995": {
+      "title": "Pittore",
+      "description": "Pittore e imbianchino.",
+      "fullDescription": "Ho lavorato come pittore e imbianchino, sviluppando competenze manuali e precisione nel lavoro."
+    },
+    "1996": {
+      "title": "Elettricista",
+      "description": "Installazioni industriali presso Mec Logic.",
+      "fullDescription": "Elettricista specializzato in installazioni industriali. Esperienza che mi ha insegnato la precisione tecnica e la sicurezza sul lavoro."
+    },
+    "1997": {
+      "title": "Elettricista",
+      "description": "Continuo esperienza in installazioni industriali.",
+      "fullDescription": "Proseguimento dell'attività di elettricista presso Mec Logic, consolidando le competenze in ambito industriale."
+    },
+    "1998": {
+      "title": "Elettricista",
+      "description": "Specializzazione in installazioni industriali.",
+      "fullDescription": "Ulteriore sviluppo delle competenze elettriche in ambito industriale, gestendo progetti di crescente complessità."
+    },
+    "1999": {
+      "title": "Magazziniere",
+      "description": "Reparto alimentare presso METRO.",
+      "fullDescription": "Magazziniere nel reparto alimentare con uso del sollevatore. Esperienza che ha sviluppato capacità organizzative e gestione della logistica."
+    },
+    "2000": {
+      "title": "Aiuto Cuoco",
+      "description": "Ristorazione a Málaga, Spagna.",
+      "fullDescription": "Esperienza nella ristorazione presso Fuente del Reading a Málaga. Primo contatto con la cultura spagnola e miglioramento delle competenze linguistiche."
+    },
+    "2001": {
+      "title": "Barista - Cameriere",
+      "description": "Servizio clienti a Genova.",
+      "fullDescription": "Barista e cameriere presso Barbarossa a Genova. Sviluppo di competenze nel servizio al cliente e nella gestione del banco bar."
+    },
+    "2002": {
+      "title": "Venditore / Barman",
+      "description": "Vendita elettronica e barman nel weekend.",
+      "fullDescription": "Doppia esperienza: venditore di elettronica e TV presso Comet durante la settimana, e barman presso I Picari nei weekend per passione dei cocktail."
+    },
+    "2003": {
+      "title": "Barman",
+      "description": "Specializzazione in cocktail.",
+      "fullDescription": "Continuo l'esperienza come barman presso I Picari, specializzandomi nella creazione di cocktail e nell'intrattenimento clienti."
+    },
+    "2004": {
+      "title": "Socio Fondatore Web Agency",
+      "description": "Fondazione Dipnet Web Agency.",
+      "fullDescription": "Co-fondazione di Dipnet, azienda di comunicazione stampa, web e multimedia. Gestione completa di grafica, pubblicità, servizi multimediali e sviluppo web frontend, oltre alla gestione dei dipendenti e comunicazione con i clienti."
+    },
+    "2005": {
+      "title": "Graphic Designer / Frontend Developer",
+      "description": "Sviluppo progetti web e multimedia.",
+      "fullDescription": "Presso Dipnet mi occupo di progetti di grafica e sviluppo web, acquisendo esperienza in HTML, CSS e design multimediale."
+    },
+    "2006": {
+      "title": "Graphic Designer / Frontend Developer",
+      "description": "Consolidamento competenze web.",
+      "fullDescription": "Continuo a sviluppare competenze in grafica e sviluppo frontend, gestendo progetti sempre più complessi per clienti locali e nazionali."
+    },
+    "2007": {
+      "title": "Graphic Designer / Frontend Developer",
+      "description": "Gestione team e progetti complessi.",
+      "fullDescription": "Oltre allo sviluppo, inizio a gestire un piccolo team interno e a coordinare progetti di comunicazione integrata stampa/web."
+    },
+    "2008": {
+      "title": "Graphic Designer / Frontend Developer",
+      "description": "Espansione servizi multimedia.",
+      "fullDescription": "Espansione dei servizi offerti da Dipnet nel campo multimedia, includendo video e animazioni Flash."
+    },
+    "2009": {
+      "title": "Graphic Designer / Frontend Developer",
+      "description": "Focus su usabilità e design.",
+      "fullDescription": "Approfondimento delle tematiche di usabilità web e design centrato sull'utente, anticipando le tendenze UI/UX."
+    },
+    "2010": {
+      "title": "Ideatore / Creatore",
+      "description": "Lancio piattaforma Corsi di Grafica.",
+      "fullDescription": "Creazione di una piattaforma completa di corsi di grafica con video tutorial su Illustrator, sviluppo web frontend e animazioni Javascript. Sviluppo di landing page dedicate e piattaforma e-learning."
+    },
+    "2011": {
+      "title": "Ideatore / Creatore",
+      "description": "Espansione corsi online.",
+      "fullDescription": "Espansione della piattaforma Corsi di Grafica con nuovi contenuti e miglioramenti alla user experience. Consolidamento della presenza online."
+    },
+    "2012": {
+      "title": "Marinaio / Barman",
+      "description": "Esperienza a Minorca e Palma de Mallorca.",
+      "fullDescription": "Doppia esperienza: marinaio/mozzo presso Scuba Diving Center a Minorca (gestione attrezzature, comunicazione multilingue con clienti) e barman presso Claxon a Palma de Mallorca."
+    },
+    "2013": {
+      "title": "Marketing / Design / Web",
+      "description": "Creazione materiale pubblicitario per NifocNifum.",
+      "fullDescription": "Gestione completa di marketing, design e sviluppo web per NifocNifum. Creazione di cataloghi prodotti, materiale pubblicitario e sito web aziendale."
+    },
+    "2014": {
+      "title": "Frontend Developer / UI/UX Designer",
+      "description": "Co-fondazione Rock&RoR team Ruby on Rails.",
+      "fullDescription": "Co-fondazione di Rock&RoR, team di esperti Ruby on Rails. Sviluppo frontend e design UI/UX per progetti enterprise.\n\nProgetti principali:\n\n• Consul Open Source - Contribuzione al progetto open source per il Comune di Madrid. Sviluppo di caratteristiche sperimentali per migliorare l'esperienza utente nelle piattaforme di partecipazione cittadina (https://tomadedecisiones.madrid.es/).\n\n• Interfacce per Partecipazione Pubblica - Sviluppo di interfacce per richieste di iscrizione agli ordini del giorno pubblici e registrazione delle lobby del Comune di Madrid.\n\nTecnologie: Ruby on Rails, HTML, CSS, SCSS, JavaScript, jQuery, UI/UX Design."
+    },
+    "2015": {
+      "title": "Frontend Developer / Graphic Designer",
+      "description": "Progetti web e branding.",
+      "fullDescription": "Doppia attività: sviluppo frontend e graphic design presso AL Communication, e gestione imprenditoriale di Bus&Walk.\n\nProgetti principali:\n\n• AL Communication - Design e sviluppo per progetti di branding aziendale. Preparazione rivestimenti auto, progettazione flyer, poster e loghi. Gestione processo di stampa.\n\n• Bus&Walk - Creazione guida turistica digitale per Palma de Maiorca in collaborazione con City Sightseeing. Sviluppo web della piattaforma e materiale grafico.\n\nTecnologie: Adobe Photoshop, Adobe Illustrator, HTML, CSS, JavaScript, Print Design."
+    },
+    "2016": {
+      "title": "Frontend Developer / UI/UX",
+      "description": "Sviluppo interfacce per progetti open source.",
+      "fullDescription": "Continuo collaborazione con Rock&RoR, specializzandomi nello sviluppo di interfacce complesse per piattaforme pubbliche.\n\nProgetti principali:\n\n• Piattaforme di E-Democracy - Sviluppo frontend per sistemi di partecipazione cittadina e decision-making pubblico.\n\n• Ottimizzazione UI/UX - Miglioramento dell'esperienza utente su applicazioni Ruby on Rails ad alto traffico.\n\nTecnologie: Ruby on Rails, SCSS, JavaScript, jQuery, Responsive Design, UI/UX Best Practices."
+    },
+    "2017": {
+      "title": "Frontend Developer / UI/UX Specialist",
+      "description": "Specializzazione in user experience e interfacce complesse.",
+      "fullDescription": "Approfondimento delle competenze UI/UX con focus su accessibilità e usabilità per piattaforme governative.\n\nProgetti principali:\n\n• Interfacce Accessibili - Sviluppo di componenti frontend accessibili seguendo le linee guida WCAG per garantire l'inclusività.\n\n• Dashboard Analytics - Creazione di dashboard interattive per visualizzazione dati di partecipazione cittadina.\n\nTecnologie: Ruby on Rails, JavaScript, jQuery, SCSS, Responsive Design, Accessibility (WCAG), Data Visualization."
+    },
     "2018": {
-      "title": "Junior Web Developer",
-      "description": "I primi passi nello sviluppo professionale.",
-      "fullDescription": "Ho iniziato lavorando su siti vetrina e piccoli e-commerce, focalizzandomi sulla pulizia del codice HTML e sulla compatibilità cross-browser."
+      "title": "Frontend Developer / Digital Marketing",
+      "description": "Sviluppo web e strategie di marketing digitale.",
+      "fullDescription": "Sviluppo frontend per Datacode con focus su conversioni e marketing automation. Conclusione collaborazione con Rock&RoR.\n\nProgetti principali:\n\n• Flussi Marketing Automation - Creazione di funnel di conversione e landing page ottimizzate per la lead generation.\n\n• Sviluppo Web - Realizzazione di siti web responsive con integrazione CRM e strumenti di analytics.\n\nTecnologie: HTML, CSS, JavaScript, jQuery, PHP, Marketing Automation, Google Analytics, Landing Page Optimization."
     },
     "2019": {
-      "title": "Junior Web Developer",
-      "description": "I primi passi nello sviluppo professionale.",
-      "fullDescription": "Ho iniziato lavorando su siti vetrina e piccoli e-commerce, focalizzandomi sulla pulizia del codice HTML e sulla compatibilità cross-browser."
+      "title": "Nessun dato",
+      "description": "Nessun dato disponibile per questo anno.",
+      "fullDescription": "Nessun dato disponibile per questo anno."
     },
     "2020": {
-      "title": "Frontend Developer",
-      "description": "Transizione verso le moderne Single Page Applications.",
-      "fullDescription": "Mi sono specializzato in React, gestendo lo stato delle applicazioni e integrando API REST per dashboard dinamiche."
+      "title": "Nessun dato",
+      "description": "Nessun dato disponibile per questo anno.",
+      "fullDescription": "Nessun dato disponibile per questo anno."
     },
     "2021": {
-      "title": "Junior Web Developer",
-      "description": "I primi passi nello sviluppo professionale.",
-      "fullDescription": "Ho iniziato lavorando su siti vetrina e piccoli e-commerce, focalizzandomi sulla pulizia del codice HTML e sulla compatibilità cross-browser."
+      "title": "Nessun dato",
+      "description": "Nessun dato disponibile per questo anno.",
+      "fullDescription": "Nessun dato disponibile per questo anno."
     },
     "2022": {
-      "title": "Fullstack Web Engineer",
-      "description": "Sviluppo di soluzioni end-to-end.",
-      "fullDescription": "Ho approfondito l'ecosistema JavaScript lato server, creando database scalabili e architetture cloud per startup."
+      "title": "Frontend Developer Freelance",
+      "description": "Specializzazione in tecnologie moderne e animazioni.",
+      "fullDescription": "Attività freelance con focus su framework moderni e animazioni web performanti.\n\nProgetti principali:\n\n• Siti Web Interattivi - Sviluppo di esperienze web moderne utilizzando React e librerie di animazione avanzate.\n\n• Landing Page - Creazione di landing page ad alta conversione con particolare attenzione alle performance e alla UX.\n\nTecnologie: React, Tailwind CSS, GSAP, JavaScript ES6+, Responsive Design, Web Performance Optimization."
+    },
+    "2023": {
+      "title": "Nessun dato",
+      "description": "Nessun dato disponibile per questo anno.",
+      "fullDescription": "Nessun dato disponibile per questo anno."
     },
     "2024": {
-      "title": "Senior UI/UX Specialist",
-      "description": "Focus sulla performance e sull'esperienza utente.",
-      "fullDescription": "Ottimizzazione dei tempi di caricamento e implementazione di sistemi di design complessi per migliorare la conversione degli utenti."
+      "title": "Frontend Developer",
+      "description": "Sviluppo applicazioni web scalabili e performanti.",
+      "fullDescription": "Specializzazione in architetture frontend moderne con focus su scalabilità e manutenibilità del codice.\n\nProgetti principali:\n\n• Applicazioni React - Sviluppo di web app complesse utilizzando React e Next.js con particolare attenzione ai Core Web Vitals.\n\n• Design Systems - Implementazione di design systems con Tailwind CSS e TypeScript per garantire consistenza e riusabilità dei componenti.\n\nTecnologie: React, Next.js, TypeScript, Tailwind CSS, Component Architecture, Performance Optimization."
+    },
+    "2025": {
+      "title": "Frontend Developer & Architect (UI/UX & SEO)",
+      "description": "Sviluppo frontend specializzato con un forte focus su ottimizzazione SEO, performance e conversione.",
+      "fullDescription": "Anno focalizzato sulla transizione di progetti esistenti verso tecnologie moderne e performanti, con un'attenzione strategica al posizionamento organico e alla rimozione di dipendenze obsolete.",
+      "videoId": "",
+      "projectsList": [
+        {
+          "id": "proj-2025-1",
+          "name": "Progetto 3Filppi (Avvio e Frontend Lead)",
+          "description": "Avvio del progetto in qualità di leader dello sviluppo frontend. Definizione dell'architettura iniziale con Svelte, Laravel e Tailwind CSS, e implementazione delle prime funzionalità chiave.",
+          "projectUrl": "https://example.com/3filppi",
+          "videoId": ""
+        },
+        {
+          "id": "proj-2025-2",
+          "name": "Landing Pages per Originepietra",
+          "description": "Creazione di multiple landing page ottimizzate per SEO e marketing. Utilizzo di Tailwind CSS e JavaScript per garantire design accattivanti, performance elevate e piena responsività su tutti i dispositivi.",
+          "projectUrl": "https://example.com/3filppi",
+          "videoId": ""
+        },
+        {
+          "id": "proj-2025-3",
+          "name": "Artigian Casa (Rifacimento Totale)",
+          "description": "Rimozione completa della vecchia installazione WordPress e sviluppo ex-novo del sito web utilizzando PHP, Tailwind CSS e un approccio SEO-first. Miglioramento significativo della performance, della sicurezza e della manutenibilità del sito.",
+          "projectUrl": "https://example.com/3filppi",
+          "videoId": ""
+        }
+      ]
     },
     "2026": {
-      "title": "React Specialist",
-      "description": "Ho fatto questo in italiano",
-      "fullDescription": "Responsabile dell'architettura frontend per una piattaforma SaaS ad alto traffico. L'implementazione di Next.js 14 con il nuovo App Router ha permesso di ottimizzare i Core Web Vitals..."
+      "title": "Frontend Developer & Architect (UI/UX & SEO)",
+      "description": "Sviluppo di applicazioni web moderne, performance-oriented e gestione di progetti complessi in qualità di leader tecnico.",
+      "fullDescription": "Anno dedicato allo sviluppo frontend avanzato e alla leadership tecnica, con un focus particolare su architetture scalabili, performance e ottimizzazione dell'esperienza utente.",
+      "videoId": "",
+      "projectsList": [
+        {
+          "id": "proj-2026-1",
+          "name": "AgileOnTheWeb Portfolio",
+          "description": "Per affrontare la sfida di React 19, ho scelto di creare da zero il mio portfolio personale, rendendolo il mio primo progetto interamente sviluppato con questa tecnologia. Questo sito non è solo una vetrina delle mie competenze, ma la dimostrazione pratica della mia capacità di immergermi, apprendere e dominare nuovi stack tecnologici fin dal loro rilascio. Ho sfruttato l'architettura di Next.js 14 e la robustezza di TypeScript per costruire un'esperienza utente all'avanguardia, con animazioni GSAP, design multilingua (IT/EN/ES) e un'ottimizzazione maniacale delle Core Web Vitals.",
+          "projectUrl": "",
+          "videoId": ""
+        },
+        {
+          "id": "proj-2026-2",
+          "name": "Progetto 3Filppi (Frontend Lead)",
+          "description": "Gestione e sviluppo del frontend per il progetto. Stack tecnologico (Laravel, JavaScript, Tailwind CSS, GSAP, Github), della correzione (Figma,Illustrator) e implementazione di layout complessi forniti dal cliente e del mantenimento del codice tramite GitHub.",
+          "projectUrl": "https://example.com/3filppi",
           "videoId": "K9XDq270l40"
+        },
+        {
+          "id": "proj-2026-3",
+          "name": "Landing Page Agriturismo Cantoni",
+          "description": "Creazione di una landing page ottimizzata per la conversione e la visibilità online. Sviluppata con PHP, JavaScript e Tailwind CSS, con un'attenzione particolare al responsive design e alla velocità di caricamento.",
+          "projectUrl": "https://example.com/3filppi",
+          "videoId": ""
+        },
+        {
+          "id": "proj-2026-4",
+          "name": "Rifacimento Sito Web Originepietra",
+          "description": "Progettazione e sviluppo del nuovo sito frontend. Utilizzo di un ambiente di sviluppo moderno con Laravel, Node.js e GitHub per garantire un flusso di lavoro efficiente e un codice di alta qualità.",
+          "projectUrl": "https://example.com/3filppi",
+          "videoId": ""
+        },
+        {
+          "id": "proj-2026-5",
+          "name": "Artigian Casa",
+          "description": "Continuazione dello sviluppo della landing page per campagne marketing e SEO, implementando nuove sezioni e ottimizzando le esistenti per migliorare il posizionamento e l'engagement degli utenti.",
+          "projectUrl": "https://example.com/3filppi",
+          "videoId": ""
+        }
+      ]
     }
   }
 }
