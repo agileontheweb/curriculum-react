@@ -9,7 +9,7 @@ import logo from '../assets/logo-agileontheweb-gradient.svg';
 
 gsap.registerPlugin(TextPlugin);
 
-export default function Navbar({ onOpenPresentation }) {
+export default function Navbar({ onOpenPresentation, onOpenGithub }) {
   const { t, i18n } = useTranslation();
 
   // Refs
@@ -30,8 +30,7 @@ export default function Navbar({ onOpenPresentation }) {
     },
     {
       labelKey: 'navbar.github',
-      href: '#curriculum',
-      onClick: () => onCloseMenu()
+      onClick: () => onCloseMenu(() => onOpenGithub())
     },
     {
       labelKey: 'navbar.contacts',
