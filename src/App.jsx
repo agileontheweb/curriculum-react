@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
 import Timeline from './components/Timeline';
 import ExperienceContent from './components/ExperienceContent';
+import VideoSection from './components/VideoSection';
 import Presentation from './components/Presentation';
 import GithubSection from './components/GithubSection';
 import Footer from './components/Footer';
@@ -17,6 +18,7 @@ function App() {
   const scrollContainerRef = useRef();
   const presentationRef = useRef();
   const githubRef = useRef();
+  const videoSectionRef = useRef();
   const isScrollingRef = useRef(false);
   const cardsRef = useRef({});
 
@@ -28,6 +30,11 @@ function App() {
 
   const handleOpenPresentation = () => presentationRef.current?.open();
   const handleOpenGithub = () => githubRef.current?.open();
+
+  const handleOpenVideo = (videoId, projectTitle) => {
+    videoSectionRef.current?.open(videoId, projectTitle);
+  };
+
 
   useGSAP(() => {
     const cards = Object.values(cardsRef.current);
@@ -70,7 +77,6 @@ function App() {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans">
-      <Navbar onOpenPresentation={handleOpenPresentation} />
       <Navbar
         onOpenPresentation={handleOpenPresentation}
         onOpenGithub={handleOpenGithub}
@@ -99,6 +105,7 @@ function App() {
                 experience={exp}
                 data-id={exp.id}
                 style={{ opacity: selectedId === exp.id ? 1 : 0.4 }}
+                onOpenVideo={handleOpenVideo}
               />
             ))}
           </div>
@@ -107,6 +114,7 @@ function App() {
 
       <Presentation ref={presentationRef} />
       <GithubSection ref={githubRef} username="agileontheweb" />
+      <VideoSection ref={videoSectionRef} />
       <Footer />
     </div>
   );

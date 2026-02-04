@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { HiXMark, HiOutlineCommandLine, HiOutlineGlobeAlt } from "react-icons/hi2";
+import { HiXMark, HiOutlineGlobeAlt, HiArrowTopRightOnSquare, HiPlayCircle } from "react-icons/hi2";
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import YouTubePlayer from './YouTubePlayer';
 import { useTranslation } from 'react-i18next';
 
-const ExperienceModal = ({ experience, onClose }) => {
+const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
   const overlayRef = useRef();
   const modalRef = useRef();
   const { t } = useTranslation();
@@ -52,6 +52,8 @@ const ExperienceModal = ({ experience, onClose }) => {
 
   if (!experience) return null;
   const expKey = `experiences.${experience.year}`;
+
+  const generalVideoId = t(`${expKey}.videoId`);
 
   return createPortal(
     <div
@@ -104,6 +106,15 @@ const ExperienceModal = ({ experience, onClose }) => {
               {experience.videoId && !showVideo && (
                 <div className="mt-6 rounded-lg bg-white/5 animate-pulse aspect-video" />
               )}
+                            {project.videoId && (
+                              <button
+                                onClick={() => onOpenVideo(project.videoId, project.name)}
+                                className="text-agile-sky hover:text-white transition-colors flex items-center gap-1 text-sm"
+                              >
+                                <HiPlayCircle size={16} />
+                                Video
+                              </button>
+                            )}
             </article>
           </div>
         </div>
