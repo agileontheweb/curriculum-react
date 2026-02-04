@@ -4,7 +4,7 @@ import ExperienceModal from './ExperienceModal';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 
-const ExperienceContent = forwardRef(({ experience, ...props }, ref) => {
+const ExperienceContent = forwardRef(({ experience, onOpenVideo, ...props }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -46,7 +46,7 @@ const ExperienceContent = forwardRef(({ experience, ...props }, ref) => {
           </p>
 
           <div className="skills-container mt-4">
-            {experience.skills.slice(0, 4).map(skill => (
+            {experience.skills.map(skill => (
               <span key={skill} className="skill-badge flex items-center gap-1.5 bg-slate-800/50 group-hover:bg-agile-sky/10 transition-colors">
                 <HiOutlineCommandLine className="text-agile-sky/70" />
                 {skill}
@@ -60,6 +60,7 @@ const ExperienceContent = forwardRef(({ experience, ...props }, ref) => {
         <ExperienceModal
           experience={experience}
           onClose={() => setIsOpen(false)}
+          onOpenVideo={onOpenVideo}
         />,
         document.body
       )}
