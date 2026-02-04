@@ -53,6 +53,7 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
   if (!experience) return null;
   const expKey = `experiences.${experience.year}`;
 
+  const projectsList = t(`${expKey}.projectsList`, { returnObjects: true }) || [];
   const generalVideoId = t(`${expKey}.videoId`);
 
   return createPortal(
@@ -88,24 +89,41 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
                 {t(`${expKey}.description`)}
               </p>
 
-              <div className="space-y-4 text-slate-300 font-light text-sm leading-relaxed">
-                {(t(`${expKey}.fullDescription`) || "").split('\n').map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
+              <p className="space-y-4 text-slate-300 font-light text-sm leading-relaxed mb-8">
+                {t(`${expKey}.fullDescription`)}
+              </p>
 
-              {/* Il video appare solo a fine animazione */}
-              {experience.videoId && showVideo && (
-                <div className="mt-6 rounded-lg overflow-hidden bg-black aspect-video">
-                  <YouTubePlayer
-                    videoId={experience.videoId}
-                    title={t(`${expKey}.title`)}
-                  />
+              {/* Video generale dell'esperienza (dopo la lista dei progetti) */}
+              {generalVideoId && showVideo && (
+                <div className="mt-8 rounded-lg overflow-hidden bg-black aspect-video">
+                  <YouTubePlayer videoId={generalVideoId} title={t(`${expKey}.title`)} />
                 </div>
               )}
-              {experience.videoId && !showVideo && (
-                <div className="mt-6 rounded-lg bg-white/5 animate-pulse aspect-video" />
+              {generalVideoId && !showVideo && (
+                <div className="mt-8 rounded-lg bg-white/5 animate-pulse aspect-video" />
               )}
+
+              {projectsList.length > 0 && (
+                <div className="space-y-6">
+                  <h4 className="text-agile-sky font-semibold text-base uppercase tracking-wider">Progetti Principali</h4>
+                  <ul className="space-y-5">
+                    {projectsList.map((project) => (
+                      <li key={project.id} className="border-l border-slate-700 pl-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="text-white font-semibold text-base">{project.name}</h5>
+                          <div className="flex items-center gap-3"> {/* AGGIUNGI QUESTO DIV */}
+                            {project.projectUrl && (
+                              <a
+                                href={project.projectUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-agile-sky hover:text-white transition-colors flex items-center gap-1 text-sm"
+                              >
+                                <HiOutlineGlobeAlt size={16} />
+                                Live
+                                <HiArrowTopRightOnSquare size={14} />
+                              </a>
+                            )}
                             {project.videoId && (
                               <button
                                 onClick={() => onOpenVideo(project.videoId, project.name)}
@@ -115,6 +133,17 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
                                 Video
                               </button>
                             )}
+                          </div>
+                        </div>
+                        <p className="text-slate-300 font-light text-sm leading-relaxed mb-3">{project.description}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+
+
             </article>
           </div>
         </div>

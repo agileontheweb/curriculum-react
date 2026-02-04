@@ -51,52 +51,109 @@ const Presentation = forwardRef((props, ref) => {
       </button>
 
       <div ref={contentRef} className="presentation-content overflow-y-auto">
-        {/* Titolo sempre in alto */}
-        <h2 className="text-4xl md:text-6xl font-bold mb-8 text-agile-navy">
-          {t('presentation.title')}
-        </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        {/* Titolo sezione */}
+        <div className="text-center mb-8">
+          <p className="text-sm md:text-base uppercase tracking-widest text-slate-400 font-semibold">
+            Presentazione
+          </p>
+        </div>
 
-          {/* COLONNA TESTI */}
-          <div className="flex flex-col space-y-8 order-1">
-            {/* 1. About Me */}
-            <div className="text-lg text-slate-700 leading-relaxed">
-              <p>{t('presentation.about_me')}</p>
-            </div>
-
-            {/* 2. VIDEO (Visibile SOLO in mobile tra il testo e la filosofia) */}
-            <div className="lg:hidden w-full aspect-video rounded-2xl overflow-hidden shadow-xl bg-black">
-              <YouTubePlayer videoId={t('presentation.videoId')} />
-            </div>
-
-            {/* 3. Filosofia */}
-            <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-agile-sky shadow-sm">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-agile-sky mb-2">
-                {t('presentation.philosophy_title')}
-              </h3>
-              <p className="italic text-slate-600">
-                "{t('presentation.philosophy')}"
-              </p>
-            </div>
-
-            {/* 4. Extra Text (Aggiungilo nel tuo it.json) */}
-            <div className="text-lg text-slate-700 leading-relaxed">
-              <p>{t('presentation.extra_text')}</p>
-            </div>
-
-            {/* 5. Tech Stack */}
-            <div className="pt-4 text-sm text-slate-400 font-medium border-t border-slate-100">
-              {t('presentation.tech_title')}: React • GSAP • Tailwind • Vite
-            </div>
+        {/* Header - Nome e Titolo */}
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-agile-navy mb-4">
+            Alessandro Cuoghi
+          </h1>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-lg md:text-xl">
+            <p className="text-slate-500 font-light">
+              alias <span className="text-agile-sky font-semibold">AgileOnTheWeb</span>
+            </p>
+            <span className="hidden md:inline text-slate-300">|</span>
+            <p className="text-agile-sky font-bold">
+              {t('presentation.title')}
+            </p>
           </div>
+        </div>
 
-          {/* COLONNA VIDEO (Visibile SOLO in desktop a destra) */}
-          <div className="hidden lg:block lg:sticky lg:top-8 w-full aspect-video rounded-3xl overflow-hidden shadow-2xl bg-black">
+        {/* Intro breve (primo paragrafo) */}
+        <div className="max-w-3xl mx-auto mb-12 text-center">
+          <p className="text-lg md:text-xl text-slate-700 leading-relaxed">
+            {t('presentation.intro')}
+          </p>
+        </div>
+
+        {/* Video */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black">
             <YouTubePlayer videoId={t('presentation.videoId')} />
           </div>
-
         </div>
+
+        {/* Intro Extended (dopo il video) */}
+        <div className="max-w-3xl mx-auto mb-12 text-base md:text-lg text-slate-700 leading-relaxed space-y-4">
+          {t('presentation.intro_extended').split('\n\n').map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </div>
+
+        {/* AI Evolution Section */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <h3 className="text-xl md:text-2xl font-bold text-agile-navy mb-6">
+            {t('presentation.ai_evolution_title')}
+          </h3>
+          <div className="text-base md:text-lg text-slate-700 leading-relaxed space-y-4">
+            {t('presentation.ai_evolution').split('\n\n').map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+
+        {/* Il Mio Percorso */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <h3 className="text-2xl md:text-3xl font-bold text-agile-navy mb-6 text-center">
+            {t('presentation.about_me_title')}
+          </h3>
+          <div className="text-base md:text-lg text-slate-700 leading-relaxed space-y-4">
+            {t('presentation.about_me').split('\n\n').map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+
+
+        {/* Filosofia */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <div className="bg-slate-50 p-8 rounded-2xl border-l-4 border-agile-sky shadow-md">
+            <h3 className="text-lg font-bold uppercase tracking-widest text-agile-sky mb-4">
+              {t('presentation.philosophy_title')}
+            </h3>
+            <div className="text-slate-600 leading-relaxed space-y-3">
+              {t('presentation.philosophy').split('\n\n').map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Metodologia e Valori */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <div className="text-base md:text-lg text-slate-700 leading-relaxed space-y-4">
+            {t('presentation.extra_text').split('\n\n').map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+
+        {/* Tech Stack */}
+        <div className="max-w-3xl mx-auto pt-8 border-t border-slate-200">
+          <h4 className="text-lg font-bold uppercase tracking-widest text-agile-sky mb-4 text-center">
+            {t('presentation.tech_title')}
+          </h4>
+          <p className="text-sm md:text-base text-slate-600 leading-relaxed text-center">
+            {t('presentation.tech_stack')}
+          </p>
+        </div>
+
       </div>
     </div>
   );
