@@ -2,6 +2,7 @@ import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark, HiOutlineCalendarDays, HiOutlineCommandLine, HiArrowTopRightOnSquare, HiOutlineBuildingOffice2, HiOutlineUserCircle, HiOutlineGlobeAlt, HiOutlineLockClosed } from "react-icons/hi2";
 import { useGSAP } from '@gsap/react';
+import { useSoundContext } from '../contexts/SoundContext';
 import gsap from 'gsap';
 
 // Configurazione Dati Statici
@@ -21,11 +22,15 @@ const GithubSection = forwardRef(({ username = "agileontheweb", repo = "curricul
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef();
+  // 2. Estrai la funzione setGithubMode dal contesto
+  const { setGithubMode, playSound } = useSoundContext();
 
   useImperativeHandle(ref, () => ({
     open: () => {
       setIsOpen(true);
       fetchData();
+      setGithubMode(true);
+
     },
     close: handleClose
   }));
@@ -51,6 +56,8 @@ const GithubSection = forwardRef(({ username = "agileontheweb", repo = "curricul
   const { contextSafe } = useGSAP({ scope: containerRef });
 
   const handleClose = contextSafe(() => {
+    setGithubMode(false);
+
     const tl = gsap.timeline({
       onComplete: () => {
         setIsOpen(false);

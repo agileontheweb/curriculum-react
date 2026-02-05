@@ -3,10 +3,12 @@ import { HiOutlineBuildingOffice2, HiOutlineCommandLine, HiArrowsPointingOut } f
 import ExperienceModal from './ExperienceModal';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
+import { useSoundContext } from '../contexts/SoundContext';
 
 const ExperienceContent = forwardRef(({ experience, onOpenVideo, ...props }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const { playSound } = useSoundContext();
 
   if (!experience) return null;
   const expKey = `experiences.${experience.year}`;
@@ -20,6 +22,7 @@ const ExperienceContent = forwardRef(({ experience, onOpenVideo, ...props }, ref
       >
         <div
           onClick={() => setIsOpen(true)}
+          // onMouseEnter={() => playSound('/audio/47313572-ui-sounds-pack-3-12-359729.mp3')}
           className="experience-card group cursor-pointer relative hover:border-agile-sky/30 transition-colors"
         >
           <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 text-agile-sky">

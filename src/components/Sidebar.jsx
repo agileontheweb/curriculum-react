@@ -1,9 +1,12 @@
 import { forwardRef } from 'react';
 import { HiXMark } from "react-icons/hi2";
 import { useTranslation } from 'react-i18next';
+import { useSoundContext } from '../contexts/SoundContext'; // Importa il contesto
 
 const Sidebar = forwardRef(({ onClose, links }, ref) => {
   const { t } = useTranslation();
+  const { playSound } = useSoundContext(); // Estrai playSound
+
 
   return (
     <>
@@ -16,7 +19,11 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
       <div ref={ref} className="sidemenu-drawer">
         <button
           className="absolute top-8 right-8 text-white hover:text-agile-sky transition-transform hover:rotate-90 p-2"
-          onClick={onClose}
+          onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+          onClick={() => {
+            playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+            onClose
+          }}
           aria-label={t('common.close')}
         >
           <HiXMark className="w-10 h-10 md:w-12 md:h-12" />
@@ -34,7 +41,10 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 className="nav-link-item group"
+                onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
                 onClick={(e) => {
+                  playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+
                   if (link.onClick) {
                     e.preventDefault();
                     link.onClick();

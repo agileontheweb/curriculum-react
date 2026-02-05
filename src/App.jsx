@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Componenti
 import Navbar from './components/Navbar';
 import Timeline from './components/Timeline';
 import ExperienceContent from './components/ExperienceContent';
@@ -12,11 +13,14 @@ import Presentation from './components/Presentation';
 import GithubSection from './components/GithubSection';
 import Footer from './components/Footer';
 
+// Contesti e Manager
+import { SoundProvider, useSoundContext } from './contexts/SoundContext.jsx';
 import InteractionToastManager from './components/InteractionToastManager';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function App() {
+function AppContent() {
+  const { playSound } = useSoundContext();
   const scrollContainerRef = useRef();
   const presentationRef = useRef();
   const githubRef = useRef();
@@ -36,11 +40,9 @@ function App() {
 
   const handleOpenPresentation = () => presentationRef.current?.open();
   const handleOpenGithub = () => githubRef.current?.open();
-
   const handleOpenVideo = (videoId, projectTitle) => {
     videoSectionRef.current?.open(videoId, projectTitle);
   };
-
 
   useGSAP(() => {
     const cards = Object.values(cardsRef.current);
@@ -63,6 +65,9 @@ function App() {
   }, [sortedExperiences]);
 
   const handleTimelineClick = (id) => {
+    // playSound('/audio/dragon-studio-cinematic-flashback-transition-463199.mp3');
+    playSound('/audio/dragon-studio-boom-swoosh-05-416170.mp3');
+
     const targetCard = cardsRef.current[id];
 
     if (targetCard) {
@@ -86,6 +91,7 @@ function App() {
       <Navbar
         onOpenPresentation={handleOpenPresentation}
         onOpenGithub={handleOpenGithub}
+        animationsEnabled={hasInteractedWithToast}
       />
 
       <main className={`flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden transition-all duration-500 ${hasInteractedWithToast ? 'opacity-100' : 'opacity-30'}`}>
@@ -125,6 +131,14 @@ function App() {
 
       <InteractionToastManager onInteractionComplete={() => setHasInteractedWithToast(true)} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <SoundProvider>
+      <AppContent />
+    </SoundProvider>
   );
 }
 

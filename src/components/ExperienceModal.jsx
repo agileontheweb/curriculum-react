@@ -5,16 +5,19 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import YouTubePlayer from './YouTubePlayer';
 import { useTranslation } from 'react-i18next';
+import { useSoundContext } from '../contexts/SoundContext';
 
 const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
   const overlayRef = useRef();
   const modalRef = useRef();
   const { t } = useTranslation();
+  const { playSound } = useSoundContext();
 
   const [showVideo, setShowVideo] = useState(false);
 
   useGSAP(() => {
     document.body.style.overflow = 'hidden';
+    playSound('/audio/stereogenicstudio-swish-swoosh-woosh-sfx-25-357177.mp3');
 
     const tl = gsap.timeline({
       onComplete: () => setShowVideo(true)
@@ -43,10 +46,16 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
   }, []);
 
   const handleClose = () => {
+    playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+
     gsap.to(overlayRef.current, {
       autoAlpha: 0,
       duration: 0.15,
-      onComplete: onClose
+      // 2. Suono di chiusura quando l'animazione è completata
+      onComplete: () => {
+        playSound('/audio/dragon-studio-cinematic-flashback-transition-463199.mp3');
+        onClose(); // Chiama la funzione che chiude la modale
+      }
     });
   };
 
@@ -68,7 +77,9 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
         className="detail-modal will-change-transform"
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={handleClose} className="detail-close-btn active:scale-90 transition-transform">
+        <button onClick={handleClose}
+          onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+          className="detail-close-btn active:scale-90 transition-transform">
           <HiXMark size={24} />
         </button>
 
