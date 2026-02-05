@@ -40,6 +40,8 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
   ];
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
+
     const tl = gsap.timeline({ delay: 0.2 });
     tl.to(textRef.current, { duration: 0.6, text: "Curriculum 2026", ease: "none" })
       .to({}, { duration: 2 })
@@ -47,6 +49,7 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
       .to({}, { duration: 2 })
       .to(textRef.current, { duration: 0.8, text: "Alessandro Cuoghi", ease: "power2.inOut" });
   }, []);
+  }, [animationsEnabled]);
 
   const { contextSafe } = useGSAP({ scope: sidebarRef });
 

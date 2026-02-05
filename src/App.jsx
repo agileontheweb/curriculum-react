@@ -12,6 +12,8 @@ import Presentation from './components/Presentation';
 import GithubSection from './components/GithubSection';
 import Footer from './components/Footer';
 
+import InteractionToastManager from './components/InteractionToastManager';
+
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
@@ -21,6 +23,10 @@ function App() {
   const videoSectionRef = useRef();
   const isScrollingRef = useRef(false);
   const cardsRef = useRef({});
+  const isInitialAnimationRunning = useRef(false); // Nuovo riferimento per tracciare l'animazione
+
+  // Stato per tracciare se l'utente ha interagito con il toast
+  const [hasInteractedWithToast, setHasInteractedWithToast] = useState(false);
 
   const sortedExperiences = useMemo(() => {
     return [...initialExperiences].sort((a, b) => b.id - a.id);
@@ -82,7 +88,7 @@ function App() {
         onOpenGithub={handleOpenGithub}
       />
 
-      <main className="flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden">
+      <main className={`flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden transition-all duration-500 ${hasInteractedWithToast ? 'opacity-100' : 'opacity-30'}`}>
         <aside className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar">
           <div className="flex-1 w-full">
             <Timeline
@@ -116,6 +122,8 @@ function App() {
       <GithubSection ref={githubRef} username="agileontheweb" />
       <VideoSection ref={videoSectionRef} />
       <Footer />
+
+      <InteractionToastManager onInteractionComplete={() => setHasInteractedWithToast(true)} />
     </div>
   );
 }
