@@ -1,12 +1,11 @@
 import { forwardRef } from 'react';
 import { HiXMark } from "react-icons/hi2";
 import { useTranslation } from 'react-i18next';
-import { useSoundContext } from '../contexts/SoundContext'; // Importa il contesto
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
 const Sidebar = forwardRef(({ onClose, links }, ref) => {
   const { t } = useTranslation();
-  const { playSound } = useSoundContext(); // Estrai playSound
-
+  const { playSound } = useSoundContext();
 
   return (
     <>
@@ -18,11 +17,11 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
 
       <div ref={ref} className="sidemenu-drawer">
         <button
-          className="absolute top-8 right-8 text-white hover:text-agile-sky transition-transform hover:rotate-90 p-2"
-          onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+          className="cursor-pointer absolute top-8 right-8 text-white hover:text-agile-sky transition-transform hover:rotate-90 p-2"
+          onMouseEnter={() => playSound(SOUNDS.HOVER)}
           onClick={() => {
-            playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
-            onClose
+            playSound(SOUNDS.CLICK);
+            onClose();
           }}
           aria-label={t('common.close')}
         >
@@ -41,9 +40,9 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 className="nav-link-item group"
-                onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+                onMouseEnter={() => playSound(SOUNDS.HOVER)}
                 onClick={(e) => {
-                  playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+                  playSound(SOUNDS.CLICK);
 
                   if (link.onClick) {
                     e.preventDefault();

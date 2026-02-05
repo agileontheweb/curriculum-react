@@ -2,13 +2,27 @@ import { createContext, useContext, useState, useRef, useCallback } from 'react'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
+// NUOVO: Oggetto centrale per tutti i percorsi dei file audio
+export const SOUNDS = {
+  // EPIC_TRANSITION: '/audio/dragon-studio-epic-transition-478367.mp3',
+  EPIC_TRANSITION: '/audio/alexis_gaming_cam-impact-transition-impact-dramatic-boom-346103.mp3',
+  BOOM_SWOOSH: '/audio/dragon-studio-boom-swoosh-05-416170.mp3',
+  SWOOSH_OUT: '/audio/soundreality-whoosh-end-384629.mp3',
+  CLICK: '/audio/47313572-ui-sounds-pack-4-6-359744.mp3',
+  HOVER: '/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3',
+  CINEMATIC_FLASHBACK: '/audio/dragon-studio-cinematic-flashback-transition-463199.mp3',
+  BACKGROUND_MUSIC: '/audio/epic-spectrum-64k.mp3',
+  PRESENTATION_MUSIC: '/audio/freesound_community-sadness-in-roads-to-nowhere-23407.mp3',
+  GITHUB_MUSIC: '/audio/freesound_community-opening-scene-59933.mp3',
+};
+
 const SoundContext = createContext(null);
 
 export const SoundProvider = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [hasInteractedWithAudio, setHasInteractedWithAudio] = useState(false);
 
-  // TRE riferimenti audio
+  // riferimenti audio
   const backgroundMusicRef = useRef(null);
   const presentationMusicRef = useRef(null);
   const githubMusicRef = useRef(null);
@@ -21,25 +35,39 @@ export const SoundProvider = ({ children }) => {
   const setMode = useCallback((newMode) => {
     if (!isInitialized.current || !soundEnabled) return;
 
-    const tl = gsap.timeline();
     const currentMusicRef = getMusicRefForMode(activeMode);
     const targetMusicRef = getMusicRefForMode(newMode);
 
-    if (currentMusicRef === targetMusicRef) return; // Non fare nulla se la modalità è la stessa
+    if (!currentMusicRef || !targetMusicRef || currentMusicRef === targetMusicRef) {
+      return;
+    }
 
-    // 1. Abbassa la musica corrente
+    // Usa i percorsi centralizzati da SOUNDS
+    if (!targetMusicRef.src) {
+      switch (newMode) {
+        case 'presentation':
+          targetMusicRef.src = SOUNDS.PRESENTATION_MUSIC;
+          targetMusicRef.volume = 0.01;
+          break;
+        case 'github':
+          targetMusicRef.src = SOUNDS.GITHUB_MUSIC;
+          targetMusicRef.volume = 0.01;
+          break;
+      }
+      targetMusicRef.play().catch(e => console.error("Errore: la traccia target non è partita:", e));
+    }
+
+    const tl = gsap.timeline();
+
     tl.to(currentMusicRef, { volume: 0, duration: 1.5, ease: "power2.inOut" });
-    // 2. Allo stesso tempo, alza la musica target
     tl.to(targetMusicRef, { volume: 0.2, duration: 1.5, ease: "power2.inOut" }, "<");
 
     setActiveMode(newMode);
   }, [activeMode, soundEnabled]);
 
-  // Funzioni di comodo per le vecchie funzioni
   const setPresentationMode = useCallback((isActive) => setMode(isActive ? 'presentation' : 'background'), [setMode]);
   const setGithubMode = useCallback((isActive) => setMode(isActive ? 'github' : 'background'), [setMode]);
 
-  // Helper per ottenere il ref giusto
   const getMusicRefForMode = (mode) => {
     switch (mode) {
       case 'presentation': return presentationMusicRef.current;
@@ -66,46 +94,31 @@ export const SoundProvider = ({ children }) => {
     audio.play().catch(error => console.error("Errore nel suono:", error));
   }, [soundEnabled]);
 
-  // Funzione per inizializzare gli elementi audio senza riprodurli
+  const playSoundForced = useCallback((soundFile) => {
+    const audio = new Audio(soundFile);
+    audio.volume = 0.5;
+    audio.play().catch(error => console.error("Errore nel suono forzato:", error));
+  }, []);
+
+  //  Inizializza SOLO la traccia di background
   const initializeAudio = useCallback(() => {
     if (isInitialized.current) return;
     isInitialized.current = true;
     setHasInteractedWithAudio(true);
 
-    // Carica i file audio ma non avviarli
     if (backgroundMusicRef.current) {
-      backgroundMusicRef.current.src = '/audio/epic-spectrum-64k.mp3';
-      backgroundMusicRef.current.volume = 0.2;
-    }
-
-    if (presentationMusicRef.current) {
-      presentationMusicRef.current.src = '/audio/freesound_community-sadness-in-roads-to-nowhere-23407.mp3';
-      presentationMusicRef.current.volume = 0.01;
-    }
-
-    if (githubMusicRef.current) {
-      githubMusicRef.current.src = '/audio/freesound_community-opening-scene-59933.mp3';
-      githubMusicRef.current.volume = 0.01;
+      backgroundMusicRef.current.src = SOUNDS.BACKGROUND_MUSIC;
+      backgroundMusicRef.current.volume = 0.05;
     }
   }, []);
 
-  // Funzione per avviare la riproduzione dopo l'interazione dell'utente
+  //  Avvia SOLO la traccia di background
   const startPlayback = useCallback(() => {
     if (!isInitialized.current) return;
     setSoundEnabled(true);
 
-    // Avvia la riproduzione solo della musica di background
     if (backgroundMusicRef.current) {
       backgroundMusicRef.current.play().catch(e => console.error("Play bloccato:", e));
-    }
-
-    // Le altre musiche rimangono in pausa con volume quasi nullo
-    if (presentationMusicRef.current) {
-      presentationMusicRef.current.play().catch(e => console.error("Play bloccato:", e));
-    }
-
-    if (githubMusicRef.current) {
-      githubMusicRef.current.play().catch(e => console.error("Play bloccato:", e));
     }
   }, []);
 
@@ -116,18 +129,19 @@ export const SoundProvider = ({ children }) => {
   const value = {
     soundEnabled,
     hasInteractedWithAudio,
-    activeMode, // Esponi la modalità attuale
+    activeMode,
     toggleSound,
     playSound,
-    initializeAudio, // Funzione per inizializzare senza riprodurre
-    startPlayback, // Funzione per avviare la riproduzione
+    playSoundForced,
+    initializeAudio,
+    startPlayback,
     setPresentationMode,
-    setGithubMode // Espone la nuova funzione
+    setGithubMode,
+    SOUNDS
   };
 
   return (
     <SoundContext.Provider value={value}>
-      {/* TRE elementi audio */}
       <audio ref={backgroundMusicRef} loop />
       <audio ref={presentationMusicRef} loop preload="auto" />
       <audio ref={githubMusicRef} loop preload="auto" />

@@ -14,22 +14,25 @@ import GithubSection from './components/GithubSection';
 import Footer from './components/Footer';
 
 // Contesti e Manager
-import { SoundProvider, useSoundContext } from './contexts/SoundContext.jsx';
+import { SoundProvider, useSoundContext, SOUNDS } from './contexts/SoundContext.jsx';
 import InteractionToastManager from './components/InteractionToastManager';
+
+// Nuovo hook per l'animazione
+import { useInitialAnimation } from './contexts/useInitialAnimation.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function AppContent() {
-  const { playSound } = useSoundContext();
+  const { playSound, playSoundForced } = useSoundContext();
   const scrollContainerRef = useRef();
+  const contentWrapperRef = useRef();
+  const asideRef = useRef();
   const presentationRef = useRef();
   const githubRef = useRef();
   const videoSectionRef = useRef();
   const isScrollingRef = useRef(false);
   const cardsRef = useRef({});
-  const isInitialAnimationRunning = useRef(false); // Nuovo riferimento per tracciare l'animazione
 
-  // Stato per tracciare se l'utente ha interagito con il toast
   const [hasInteractedWithToast, setHasInteractedWithToast] = useState(false);
 
   const sortedExperiences = useMemo(() => {
@@ -44,6 +47,16 @@ function AppContent() {
     videoSectionRef.current?.open(videoId, projectTitle);
   };
 
+  const { runInitialScrollAnimation, isInitialAnimationRunning } = useInitialAnimation(
+    cardsRef,
+    scrollContainerRef,
+    contentWrapperRef,
+    asideRef,
+    sortedExperiences,
+    setSelectedId,
+    playSoundForced
+  );
+
   useGSAP(() => {
     const cards = Object.values(cardsRef.current);
 
@@ -56,17 +69,18 @@ function AppContent() {
         start: "top 250px",
         end: "bottom 250px",
         onToggle: (self) => {
-          if (self.isActive && !isScrollingRef.current) {
+          if (self.isActive && !isScrollingRef.current && !isInitialAnimationRunning.current) {
             setSelectedId(Number(card.getAttribute('data-id')));
           }
         },
       });
     });
-  }, [sortedExperiences]);
+  }, [sortedExperiences, isInitialAnimationRunning]);
 
   const handleTimelineClick = (id) => {
-    // playSound('/audio/dragon-studio-cinematic-flashback-transition-463199.mp3');
-    playSound('/audio/dragon-studio-boom-swoosh-05-416170.mp3');
+    if (isInitialAnimationRunning.current) return;
+
+    playSound(SOUNDS.BOOM_SWOOSH);
 
     const targetCard = cardsRef.current[id];
 
@@ -94,13 +108,18 @@ function AppContent() {
         animationsEnabled={hasInteractedWithToast}
       />
 
-      <main className={`flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden transition-all duration-500 ${hasInteractedWithToast ? 'opacity-100' : 'opacity-30'}`}>
-        <aside className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar">
+      <main
+        className={`flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden transition-all duration-500 ${hasInteractedWithToast ? 'opacity-100' : 'opacity-30'}`}>
+        <aside
+          ref={asideRef}
+          className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar opacity-0"
+        >
           <div className="flex-1 w-full">
             <Timeline
               experiences={sortedExperiences}
               selectedId={selectedId}
               onSelect={handleTimelineClick}
+              isAnimationRunning={isInitialAnimationRunning.current}
             />
           </div>
         </aside>
@@ -108,8 +127,10 @@ function AppContent() {
         <section
           ref={scrollContainerRef}
           className="flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 scroll-smooth"
+          style={{ scrollBehavior: 'auto' }}
+
         >
-          <div>
+          <div ref={contentWrapperRef} className="hidden">
             {sortedExperiences.map((exp) => (
               <ExperienceContent
                 key={exp.id}
@@ -129,7 +150,10 @@ function AppContent() {
       <VideoSection ref={videoSectionRef} />
       <Footer />
 
-      <InteractionToastManager onInteractionComplete={() => setHasInteractedWithToast(true)} />
+      <InteractionToastManager
+        onInteractionComplete={() => setHasInteractedWithToast(true)}
+        onAnimationStart={runInitialScrollAnimation}
+      />
     </div>
   );
 }

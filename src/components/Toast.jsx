@@ -32,10 +32,10 @@ const InteractionToast = ({ isVisible, onConfirm, onDeny }) => {
       </p>
 
       <div className="toast-actions">
-        <button onClick={onConfirm} className="btn-toast-confirm">
+        <button onClick={onConfirm} className="btn-toast-confirm cursor-pointer">
           SÌ
         </button>
-        <button onClick={onDeny} className="btn-toast-deny">
+        <button onClick={onDeny} className="btn-toast-deny cursor-pointer">
           NO
         </button>
       </div>

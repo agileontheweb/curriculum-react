@@ -6,7 +6,7 @@ import { HiChevronDown, HiBars3BottomRight, HiSpeakerWave, HiSpeakerXMark } from
 import { useTranslation } from 'react-i18next';
 import Sidebar from './Sidebar';
 import logo from '../assets/logo-agileontheweb-gradient.svg';
-import { useSoundContext } from '../contexts/SoundContext';
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
 gsap.registerPlugin(TextPlugin);
 
@@ -55,7 +55,7 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
   const { contextSafe } = useGSAP({ scope: sidebarRef });
 
   const onOpenMenu = contextSafe(() => {
-    playSound('/audio/dragon-studio-cinematic-flashback-transition-463199.mp3');
+    playSound(SOUNDS.CINEMATIC_FLASHBACK);
 
     setIsMenuOpen(true);
     const tl = gsap.timeline();
@@ -71,7 +71,7 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
   });
 
   const onCloseMenu = contextSafe((callback) => {
-    playSound('/audio/dragon-studio-cinematic-flashback-transition-463199.mp3');
+    playSound(SOUNDS.CINEMATIC_FLASHBACK);
     const tl = gsap.timeline({
       onComplete: () => {
         setIsMenuOpen(false);
@@ -86,7 +86,7 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
   });
 
   const handleLangSelect = (langCode) => {
-    playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+    playSound(SOUNDS.CLICK);
     i18n.changeLanguage(langCode);
     setIsLangOpen(false);
   };
@@ -109,11 +109,11 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
               {hasInteractedWithAudio && (
                 <button
                   onClick={() => {
-                    playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+                    playSound(SOUNDS.CLICK);
                     toggleSound();
                   }}
-                  onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
-                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+                  onMouseEnter={() => playSound(SOUNDS.HOVER)}
+                  className="cursor-pointer p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all"
                   title={soundEnabled ? "Disattiva suoni" : "Attiva suoni"}
                 >
                   {soundEnabled ? (
@@ -127,9 +127,9 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
               {/* Lingue */}
               <div className="language-dropdown">
                 <button
-                  className="language-trigger"
+                  className="language-trigger cursor-pointer"
                   onClick={() => setIsLangOpen(!isLangOpen)}
-                  onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+                  onMouseEnter={() => playSound(SOUNDS.HOVER)}
                 >
                   <span>{langLabels[currentLang] || 'ITA'}</span>
                   <HiChevronDown className={`w-4 h-4 transition-transform duration-300 ${isLangOpen ? 'rotate-180' : ''}`} />
@@ -140,9 +140,9 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
                     {Object.keys(langLabels).map((lang) => (
                       <button
                         key={lang}
-                        className={`language-option ${currentLang === lang ? 'active' : ''}`}
+                        className={`cursor-pointer language-option ${currentLang === lang ? 'active' : ''}`}
                         onClick={() => handleLangSelect(lang)}
-                        onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+                        onMouseEnter={() => playSound(SOUNDS.HOVER)}
                       >
                         {langLabels[lang]}
                       </button>
@@ -152,9 +152,12 @@ export default function Navbar({ onOpenPresentation, onOpenGithub, animationsEna
               </div>
 
               <button
-                className="hamburger-btn"
-                onClick={onOpenMenu}
-                onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+                className="hamburger-btn cursor-pointer"
+                onClick={() => {
+                  playSound(SOUNDS.CLICK);
+                  onOpenMenu();
+                }}
+                onMouseEnter={() => playSound(SOUNDS.HOVER)}
               >
                 <HiBars3BottomRight className="w-8 h-8 md:w-9 md:h-9" />
               </button>

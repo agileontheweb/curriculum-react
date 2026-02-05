@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { useSoundContext } from '../contexts/SoundContext';
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
-export default function Timeline({ experiences, selectedId, onSelect }) {
+export default function Timeline({ experiences, selectedId, onSelect, isAnimationRunning }) {
   const scrollRef = useRef();
   const { playSound } = useSoundContext();
 
   useEffect(() => {
+    if (isAnimationRunning) return;
     const activeItem = scrollRef.current?.querySelector('.dot-active');
     if (activeItem) {
       activeItem.scrollIntoView({
@@ -14,7 +15,7 @@ export default function Timeline({ experiences, selectedId, onSelect }) {
         inline: 'center',
       });
     }
-  }, [selectedId]);
+  }, [selectedId, isAnimationRunning]);
 
   return (
     <div ref={scrollRef} className="timeline-container no-scrollbar">
@@ -26,10 +27,10 @@ export default function Timeline({ experiences, selectedId, onSelect }) {
             <div
               key={exp.id}
               onClick={() => {
-                playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
+                playSound(SOUNDS.CLICK);
                 onSelect(exp.id);
               }}
-              onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
+              onMouseEnter={() => playSound(SOUNDS.HOVER)}
               className="timeline-item group"
               data-year={exp.id}
             >

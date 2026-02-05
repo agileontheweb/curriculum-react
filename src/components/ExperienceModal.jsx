@@ -5,19 +5,18 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import YouTubePlayer from './YouTubePlayer';
 import { useTranslation } from 'react-i18next';
-import { useSoundContext } from '../contexts/SoundContext';
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
 const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
   const overlayRef = useRef();
   const modalRef = useRef();
   const { t } = useTranslation();
   const { playSound } = useSoundContext();
-
   const [showVideo, setShowVideo] = useState(false);
 
   useGSAP(() => {
     document.body.style.overflow = 'hidden';
-    playSound('/audio/stereogenicstudio-swish-swoosh-woosh-sfx-25-357177.mp3');
+    playSound(SOUNDS.SWOOSH_OUT);
 
     const tl = gsap.timeline({
       onComplete: () => setShowVideo(true)
@@ -46,15 +45,12 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
   }, []);
 
   const handleClose = () => {
-    playSound('/audio/denielcz-immersivecontrol-button-click-sound-463065.mp3');
-
     gsap.to(overlayRef.current, {
       autoAlpha: 0,
       duration: 0.15,
-      // 2. Suono di chiusura quando l'animazione è completata
+      onStart: () => playSound(SOUNDS.SWOOSH_OUT),
       onComplete: () => {
-        playSound('/audio/dragon-studio-cinematic-flashback-transition-463199.mp3');
-        onClose(); // Chiama la funzione che chiude la modale
+        onClose();
       }
     });
   };
@@ -78,8 +74,8 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={handleClose}
-          onMouseEnter={() => playSound('/audio/soundreality-interface-10-204783.mp3')}
-          className="detail-close-btn active:scale-90 transition-transform">
+          onMouseEnter={() => playSound(SOUNDS.HOVER)}
+          className="cursor-pointer detail-close-btn active:scale-90 transition-transform">
           <HiXMark size={24} />
         </button>
 
@@ -104,7 +100,6 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
                 {t(`${expKey}.fullDescription`)}
               </p>
 
-              {/* Video generale dell'esperienza (dopo la lista dei progetti) */}
               {generalVideoId && showVideo && (
                 <div className="mt-8 rounded-lg overflow-hidden bg-black aspect-video">
                   <YouTubePlayer videoId={generalVideoId} title={t(`${expKey}.title`)} />
@@ -122,7 +117,7 @@ const ExperienceModal = ({ experience, onClose, onOpenVideo }) => {
                       <li key={project.id} className="border-l border-slate-700 pl-6">
                         <div className="flex items-center justify-between mb-2">
                           <h5 className="text-white font-semibold text-base">{project.name}</h5>
-                          <div className="flex items-center gap-3"> {/* AGGIUNGI QUESTO DIV */}
+                          <div className="flex items-center gap-3">
                             {project.projectUrl && (
                               <a
                                 href={project.projectUrl}
