@@ -1,3 +1,4 @@
+// src/components/Timeline.jsx
 import { useEffect, useRef } from 'react';
 import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 

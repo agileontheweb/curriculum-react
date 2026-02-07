@@ -1,8 +1,10 @@
+// ORIGINALE src/App.jsx
 import { useState, useRef, useMemo } from 'react';
 import { experiences as initialExperiences } from './data';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useScrollTriggers } from './hooks/useScrollTriggers';
 
 // Componenti
 import Navbar from './components/Navbar';
@@ -16,8 +18,6 @@ import Footer from './components/Footer';
 // Contesti e Manager
 import { SoundProvider, useSoundContext, SOUNDS } from './contexts/SoundContext.jsx';
 import InteractionToastManager from './components/InteractionToastManager';
-
-// Nuovo hook per l'animazione
 import { useInitialAnimation } from './contexts/useInitialAnimation.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,12 +27,14 @@ function AppContent() {
   const scrollContainerRef = useRef();
   const contentWrapperRef = useRef();
   const asideRef = useRef();
+  const navbarRef = useRef();
   const presentationRef = useRef();
   const githubRef = useRef();
   const videoSectionRef = useRef();
   const isScrollingRef = useRef(false);
   const cardsRef = useRef({});
 
+  const [isAppVisible, setIsAppVisible] = useState(false);
   const [hasInteractedWithToast, setHasInteractedWithToast] = useState(false);
 
   const sortedExperiences = useMemo(() => {
@@ -40,6 +42,8 @@ function AppContent() {
   }, []);
 
   const [selectedId, setSelectedId] = useState(sortedExperiences[0].id);
+  const lastSoundTimeRef = useRef(0);
+
 
   const handleOpenPresentation = () => presentationRef.current?.open();
   const handleOpenGithub = () => githubRef.current?.open();
@@ -52,64 +56,56 @@ function AppContent() {
     scrollContainerRef,
     contentWrapperRef,
     asideRef,
+    navbarRef,
     sortedExperiences,
     setSelectedId,
-    playSoundForced
+    playSoundForced,
+    isScrollingRef
   );
 
-  useGSAP(() => {
-    const cards = Object.values(cardsRef.current);
+  useScrollTriggers({
+    cardsRef,
+    scrollContainerRef,
+    selectedId,
+    setSelectedId,
+    isScrollingRef,
+    isInitialAnimationRunning,
+    playSound,
+    lastSoundTimeRef
+  });
 
-    cards.forEach((card) => {
-      if (!card) return;
-
-      ScrollTrigger.create({
-        trigger: card,
-        scroller: scrollContainerRef.current,
-        start: "top 250px",
-        end: "bottom 250px",
-        onToggle: (self) => {
-          if (self.isActive && !isScrollingRef.current && !isInitialAnimationRunning.current) {
-            setSelectedId(Number(card.getAttribute('data-id')));
-          }
-        },
-      });
-    });
-  }, [sortedExperiences, isInitialAnimationRunning]);
 
   const handleTimelineClick = (id) => {
     if (isInitialAnimationRunning.current) return;
+    playSound(SOUNDS.BOOM_SWOOSH, 0.1);
 
-    playSound(SOUNDS.BOOM_SWOOSH);
+    // FAI SOLO QUESTO: cambia lo stato. NIENT'ALTRO.
+    setSelectedId(id);
+  };
 
-    const targetCard = cardsRef.current[id];
+  const handleSkipAnimation = () => {
+    console.log("SKIP ANIMATION: Attivazione immediata dell'app");
+    setHasInteractedWithToast(true);
+    setIsAppVisible(true);
 
-    if (targetCard) {
-      isScrollingRef.current = true;
-      setSelectedId(id);
-
-      const offset = window.innerWidth < 768 ? 180 : 100;
-      const targetPosition = targetCard.offsetTop - offset;
-
-      scrollContainerRef.current?.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-
-      setTimeout(() => { isScrollingRef.current = false; }, 800);
-    }
+    // Rendi visibili gli elementi animati da GSAP
+    gsap.to(asideRef.current, { opacity: 1, x: '0%', duration: 0.5 });
+    gsap.to(navbarRef.current, { opacity: 1, duration: 0.5 });
+    gsap.to(contentWrapperRef.current, { display: "block", opacity: 1, duration: 0.5 });
   };
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans">
-      <Navbar
-        onOpenPresentation={handleOpenPresentation}
-        onOpenGithub={handleOpenGithub}
-        animationsEnabled={hasInteractedWithToast}
-      />
+      <div ref={navbarRef} className="opacity-0">
+        <Navbar
+          onOpenPresentation={handleOpenPresentation}
+          onOpenGithub={handleOpenGithub}
+          animationsEnabled={hasInteractedWithToast}
+        />
+      </div>
 
       <main
-        className={`flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden transition-all duration-500 ${hasInteractedWithToast ? 'opacity-100' : 'opacity-30'}`}>
+        className={`flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden transition-all duration-500 ${isAppVisible ? 'opacity-100' : 'opacity-0'}`}>
         <aside
           ref={asideRef}
           className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar opacity-0"
@@ -119,7 +115,8 @@ function AppContent() {
               experiences={sortedExperiences}
               selectedId={selectedId}
               onSelect={handleTimelineClick}
-              isAnimationRunning={isInitialAnimationRunning.current}
+              isAnimationRunning={false} // Quando si skippa, l'animazione non è mai in esecuzione
+
             />
           </div>
         </aside>
@@ -152,7 +149,7 @@ function AppContent() {
 
       <InteractionToastManager
         onInteractionComplete={() => setHasInteractedWithToast(true)}
-        onAnimationStart={runInitialScrollAnimation}
+        onAnimationStart={handleSkipAnimation}
       />
     </div>
   );

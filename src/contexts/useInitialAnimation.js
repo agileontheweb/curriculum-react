@@ -3,7 +3,18 @@ import { SOUNDS } from './SoundContext';
 import { useRef } from 'react';
 import gsap from 'gsap';
 
-export const useInitialAnimation = (cardsRef, scrollContainerRef, contentWrapperRef, asideRef, sortedExperiences, setSelectedId, playSoundForced) => {
+export const useInitialAnimation = (
+  cardsRef,
+  scrollContainerRef,
+  contentWrapperRef,
+  asideRef,
+  navbarRef,
+  sortedExperiences,
+  setSelectedId,
+  playSoundForced,
+  isScrollingRef // Aggiungi questo parametro
+) => {
+
   const isInitialAnimationRunning = useRef(false);
 
   const runInitialScrollAnimation = () => {
@@ -33,6 +44,8 @@ export const useInitialAnimation = (cardsRef, scrollContainerRef, contentWrapper
       onComplete: () => {
         isInitialAnimationRunning.current = false;
         setSelectedId(lastExperience.id);
+        // Assicuriamoci che anche isScrollingRef sia resettato
+        isScrollingRef.current = false;
       }
     });
 
@@ -46,20 +59,28 @@ export const useInitialAnimation = (cardsRef, scrollContainerRef, contentWrapper
       scrollTop: endPosition,
       duration: 2.5,
       ease: "power2.inOut",
-      onUpdate: () => {
-        const currentScrollTop = scrollContainerRef.current.scrollTop + offset;
-        let activeId = firstExperience.id;
-        for (const exp of experiencesOldestToNewest) {
-          const card = cardsRef.current[exp.id];
-          if (card && card.offsetTop <= currentScrollTop) {
-            activeId = exp.id;
-          } else {
-            break;
-          }
-        }
-        setSelectedId(activeId);
-      }
+      // RIMOSSO: onUpdate con setSelectedId
+      // Gli ScrollTrigger gestiranno l'aggiornamento automaticamente
     }, "<");
+
+    // tl.to(scrollContainerRef.current, {
+    //   scrollTop: endPosition,
+    //   duration: 2.5,
+    //   ease: "power2.inOut",
+    //   onUpdate: () => {
+    //     const currentScrollTop = scrollContainerRef.current.scrollTop + offset;
+    //     let activeId = firstExperience.id;
+    //     for (const exp of experiencesOldestToNewest) {
+    //       const card = cardsRef.current[exp.id];
+    //       if (card && card.offsetTop <= currentScrollTop) {
+    //         activeId = exp.id;
+    //       } else {
+    //         break;
+    //       }
+    //     }
+    //     setSelectedId(activeId);
+    //   }
+    // }, "<");
 
     tl.to(asideRef.current, {
       x: '0%',
@@ -67,10 +88,14 @@ export const useInitialAnimation = (cardsRef, scrollContainerRef, contentWrapper
       ease: "expo.out"
     }, 1.9);
 
+    tl.to(navbarRef.current, {
+      opacity: 1,
+      duration: 0.8,
+      ease: "expo.out"
+    });
+
     gsap.timeline().call(() => {
-      const epicSound = new Audio(SOUNDS.EPIC_TRANSITION);
-      epicSound.volume = 0.1;
-      epicSound.play().catch(error => console.error("Errore nel suono epico:", error));
+      playSoundForced('EPIC_TRANSITION', 0.1);
     }, null, "+=0.1");
   };
 

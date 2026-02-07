@@ -1,10 +1,8 @@
+// src/contexts/SoundContext.jsx
 import { createContext, useContext, useState, useRef, useCallback } from 'react';
-import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
-// NUOVO: Oggetto centrale per tutti i percorsi dei file audio
 export const SOUNDS = {
-  // EPIC_TRANSITION: '/audio/dragon-studio-epic-transition-478367.mp3',
   EPIC_TRANSITION: '/audio/alexis_gaming_cam-impact-transition-impact-dramatic-boom-346103.mp3',
   BOOM_SWOOSH: '/audio/dragon-studio-boom-swoosh-05-416170.mp3',
   SWOOSH_OUT: '/audio/soundreality-whoosh-end-384629.mp3',
@@ -22,16 +20,77 @@ export const SoundProvider = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [hasInteractedWithAudio, setHasInteractedWithAudio] = useState(false);
 
-  // riferimenti audio
+  // Audio refs per le musiche loop
   const backgroundMusicRef = useRef(null);
   const presentationMusicRef = useRef(null);
   const githubMusicRef = useRef(null);
 
-  // Stato per sapere quale traccia è attiva. Può essere 'background', 'presentation', 'github'
+  // Web Audio API
+  const audioContextRef = useRef(null);
+  const audioBuffers = useRef({});
+
   const [activeMode, setActiveMode] = useState('background');
   const isInitialized = useRef(false);
 
-  // Funzione generica per gestire il crossfade
+  const preloadAllAudio = useCallback(() => {
+    return new Promise((resolve) => {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      const audioFiles = Object.entries(SOUNDS);
+      const totalFiles = audioFiles.length;
+      let loadedFiles = 0;
+
+      const checkComplete = () => {
+        loadedFiles++;
+        if (loadedFiles === totalFiles) {
+          resolve();
+        }
+      };
+
+      audioFiles.forEach(([key, src]) => {
+        if (key === 'BACKGROUND_MUSIC' || key === 'PRESENTATION_MUSIC' || key === 'GITHUB_MUSIC') {
+          const audio = new Audio();
+          audio.preload = 'auto';
+
+          audio.addEventListener('canplaythrough', () => {
+            checkComplete();
+          }, { once: true });
+
+          audio.addEventListener('error', (e) => {
+            console.warn(`Errore caricamento ${key}:`, e);
+            checkComplete();
+          }, { once: true });
+
+          audio.src = src;
+          audio.load();
+          return;
+        }
+
+        fetch(src)
+          .then(response => response.arrayBuffer())
+          .then(arrayBuffer => audioContextRef.current.decodeAudioData(arrayBuffer))
+          .then(audioBuffer => {
+            audioBuffers.current[key] = audioBuffer;
+            checkComplete();
+          })
+          .catch(error => {
+            console.warn(`Errore caricamento ${key}:`, error);
+            checkComplete();
+          });
+      });
+    });
+  }, []);
+
+  const getMusicRefForMode = (mode) => {
+    switch (mode) {
+      case 'presentation': return presentationMusicRef.current;
+      case 'github': return githubMusicRef.current;
+      default: return backgroundMusicRef.current;
+    }
+  };
+
   const setMode = useCallback((newMode) => {
     if (!isInitialized.current || !soundEnabled) return;
 
@@ -42,39 +101,22 @@ export const SoundProvider = ({ children }) => {
       return;
     }
 
-    // Usa i percorsi centralizzati da SOUNDS
-    if (!targetMusicRef.src) {
-      switch (newMode) {
-        case 'presentation':
-          targetMusicRef.src = SOUNDS.PRESENTATION_MUSIC;
-          targetMusicRef.volume = 0.01;
-          break;
-        case 'github':
-          targetMusicRef.src = SOUNDS.GITHUB_MUSIC;
-          targetMusicRef.volume = 0.01;
-          break;
-      }
-      targetMusicRef.play().catch(e => console.error("Errore: la traccia target non è partita:", e));
+    if (targetMusicRef.paused) {
+      targetMusicRef.play().catch(e => console.error("Errore play:", e));
     }
 
-    const tl = gsap.timeline();
+    // Determina il volume target in base alla modalità
+    const targetVolume = newMode === 'background' ? 0.05 : 0.2;
 
+    const tl = gsap.timeline();
     tl.to(currentMusicRef, { volume: 0, duration: 1.5, ease: "power2.inOut" });
-    tl.to(targetMusicRef, { volume: 0.2, duration: 1.5, ease: "power2.inOut" }, "<");
+    tl.to(targetMusicRef, { volume: targetVolume, duration: 1.5, ease: "power2.inOut" }, "<");
 
     setActiveMode(newMode);
   }, [activeMode, soundEnabled]);
 
   const setPresentationMode = useCallback((isActive) => setMode(isActive ? 'presentation' : 'background'), [setMode]);
   const setGithubMode = useCallback((isActive) => setMode(isActive ? 'github' : 'background'), [setMode]);
-
-  const getMusicRefForMode = (mode) => {
-    switch (mode) {
-      case 'presentation': return presentationMusicRef.current;
-      case 'github': return githubMusicRef.current;
-      default: return backgroundMusicRef.current;
-    }
-  };
 
   const toggleSound = useCallback(() => {
     if (!isInitialized.current) return;
@@ -87,20 +129,51 @@ export const SoundProvider = ({ children }) => {
     setSoundEnabled(prev => !prev);
   }, [soundEnabled, activeMode]);
 
-  const playSound = useCallback((soundFile) => {
-    if (!soundEnabled) return;
-    const audio = new Audio(soundFile);
-    audio.volume = 0.5;
-    audio.play().catch(error => console.error("Errore nel suono:", error));
+  // Suona usando AudioBuffer (zero network!)
+  const playSound = useCallback((soundKey, volume = 0.5) => {
+    if (!soundEnabled || !audioContextRef.current) return;
+
+    const key = Object.keys(SOUNDS).find(k => SOUNDS[k] === soundKey) || soundKey;
+    const buffer = audioBuffers.current[key];
+
+    if (buffer) {
+      const source = audioContextRef.current.createBufferSource();
+      const gainNode = audioContextRef.current.createGain();
+
+      source.buffer = buffer;
+      gainNode.gain.value = Math.min(Math.max(volume, 0), 1);
+
+      source.connect(gainNode);
+      gainNode.connect(audioContextRef.current.destination);
+
+      source.start(0);
+    } else {
+      console.warn(`Audio buffer ${key} non trovato`);
+    }
   }, [soundEnabled]);
 
-  const playSoundForced = useCallback((soundFile) => {
-    const audio = new Audio(soundFile);
-    audio.volume = 0.5;
-    audio.play().catch(error => console.error("Errore nel suono forzato:", error));
+  const playSoundForced = useCallback((soundKey, volume = 0.5) => {
+    if (!audioContextRef.current) return;
+
+    const key = Object.keys(SOUNDS).find(k => SOUNDS[k] === soundKey) || soundKey;
+    const buffer = audioBuffers.current[key];
+
+    if (buffer) {
+      const source = audioContextRef.current.createBufferSource();
+      const gainNode = audioContextRef.current.createGain();
+
+      source.buffer = buffer;
+      gainNode.gain.value = Math.min(Math.max(volume, 0), 1);
+
+      source.connect(gainNode);
+      gainNode.connect(audioContextRef.current.destination);
+
+      source.start(0);
+    } else {
+      console.warn(`Audio buffer ${key} non trovato`);
+    }
   }, []);
 
-  //  Inizializza SOLO la traccia di background
   const initializeAudio = useCallback(() => {
     if (isInitialized.current) return;
     isInitialized.current = true;
@@ -110,9 +183,18 @@ export const SoundProvider = ({ children }) => {
       backgroundMusicRef.current.src = SOUNDS.BACKGROUND_MUSIC;
       backgroundMusicRef.current.volume = 0.05;
     }
+
+    if (presentationMusicRef.current) {
+      presentationMusicRef.current.src = SOUNDS.PRESENTATION_MUSIC;
+      presentationMusicRef.current.volume = 0.01;
+    }
+
+    if (githubMusicRef.current) {
+      githubMusicRef.current.src = SOUNDS.GITHUB_MUSIC;
+      githubMusicRef.current.volume = 0.01;
+    }
   }, []);
 
-  //  Avvia SOLO la traccia di background
   const startPlayback = useCallback(() => {
     if (!isInitialized.current) return;
     setSoundEnabled(true);
@@ -120,10 +202,6 @@ export const SoundProvider = ({ children }) => {
     if (backgroundMusicRef.current) {
       backgroundMusicRef.current.play().catch(e => console.error("Play bloccato:", e));
     }
-  }, []);
-
-  const handleUserChoice = useCallback(() => {
-    setHasInteractedWithAudio(true);
   }, []);
 
   const value = {
@@ -137,14 +215,15 @@ export const SoundProvider = ({ children }) => {
     startPlayback,
     setPresentationMode,
     setGithubMode,
+    preloadAllAudio,
     SOUNDS
   };
 
   return (
     <SoundContext.Provider value={value}>
       <audio ref={backgroundMusicRef} loop />
-      <audio ref={presentationMusicRef} loop preload="auto" />
-      <audio ref={githubMusicRef} loop preload="auto" />
+      <audio ref={presentationMusicRef} loop />
+      <audio ref={githubMusicRef} loop />
       {children}
     </SoundContext.Provider>
   );
