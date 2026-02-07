@@ -5,73 +5,90 @@ import gsap from 'gsap';
 
 const Toast = ({ isVisible, isLoading, loadingProgress, onConfirm, onDeny, onSkip }) => {
   const containerRef = useRef();
-  const progressBarRef = useRef();
   const textRef = useRef();
 
-  // Nuova sequenza di testi focalizzata sull'esperienza
   const loadingText = useMemo(() => {
-    if (loadingProgress < 16) return "Caricamento risorse creative";
-    if (loadingProgress < 32) return "Rendering interfaccia adattiva";
-    if (loadingProgress < 48) return "Configurazione ambiente interattivo";
-    if (loadingProgress < 64) return "Ottimizzazione asset grafici";
-    if (loadingProgress < 85) return "Pronti per l'esperienza"; // Più spazio per leggere
-    return "Buona navigazione"; // Messaggio finale (85% - 100%)
+    if (loadingProgress < 20) return "Risorse creative";
+    if (loadingProgress < 45) return "Interfaccia adattiva";
+    if (loadingProgress < 70) return "Asset grafici";
+    if (loadingProgress < 90) return "Esperienza pronta";
+    return "Benvenuto";
   }, [loadingProgress]);
 
+  // Animazione d'entrata del container (molto fluida)
   useGSAP(() => {
     if (isVisible) {
-      gsap.set(containerRef.current, { display: 'flex', autoAlpha: 0, y: 50 });
-      gsap.to(containerRef.current, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' });
-    } else {
-      gsap.to(containerRef.current, { autoAlpha: 0, y: 20, duration: 0.3, onComplete: () => gsap.set(containerRef.current, { display: 'none' }) });
+      gsap.fromTo(containerRef.current,
+        { autoAlpha: 0, y: 30 },
+        { autoAlpha: 1, y: 0, duration: 1, ease: 'power4.out', delay: 0.5 }
+      );
     }
   }, [isVisible]);
 
+  // Effetto "glitch/fade" al cambio del testo di caricamento
   useGSAP(() => {
     if (isLoading) {
       gsap.fromTo(textRef.current,
-        { opacity: 0, y: 10, filter: "blur(6px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power2.out" }
+        { opacity: 0, x: -5, filter: "blur(4px)" },
+        { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.4, ease: "power2.out" }
       );
     }
   }, [loadingText, isLoading]);
 
   return (
-    <div ref={containerRef} className="toast-container flex flex-col items-center text-center p-10">
+    <div ref={containerRef} className="w-full flex flex-col items-center">
       {!isLoading ? (
-        <>
-          {/* Testo iniziale con la tua nuova struttura */}
-          <p className="toast-text text-lg leading-relaxed text-center">
-            <span className="block italic">Vuoi abilitare gli effetti sonori?</span>
+        <div className="flex flex-col items-center gap-6 w-full">
+          {/* Testo su riga singola con tracking coerente */}
+          <p className="text-white/60 text-[10px] md:text-xs tracking-[0.3em] uppercase font-light whitespace-nowrap">
+            Vuoi abilitare gli effetti sonori?
           </p>
 
-          <div className="toast-actions">
-            <button onClick={onConfirm} className="btn-toast-confirm cursor-pointer">SÌ</button>
-            <button onClick={onDeny} className="btn-toast-deny cursor-pointer">NO</button>
-            <button onClick={onSkip} className="btn-toast-deny cursor-pointer">SKIP</button>
-
+          {/* Pulsanti con larghezza fissa per simmetria */}
+          <div className="flex items-center justify-center gap-4 w-full">
+            <button
+              onClick={onConfirm}
+              className="w-24 py-2 text-[10px] tracking-[0.2em] text-agile-sky border border-agile-sky/30 hover:bg-agile-sky hover:text-black transition-all duration-300 ease-out"
+            >
+              SÌ
+            </button>
+            <button
+              onClick={onDeny}
+              className="w-24 py-2 text-[10px] tracking-[0.2em] text-white/40 border border-white/10 hover:border-white/40 hover:text-white transition-all duration-300"
+            >
+              NO
+            </button>
+            <button
+              onClick={onSkip}
+              className="text-[9px] tracking-[0.2em] text-white/20 hover:text-white/60 transition-colors uppercase px-2"
+            >
+              Skip
+            </button>
           </div>
-        </>
+        </div>
       ) : (
-        <div className="w-full flex flex-col items-center">
-          <div className="h-20 flex items-center justify-center mb-8">
-            <h2 ref={textRef} className="text-2xl md:text-3xl font-black tracking-tighter text-white uppercase italic">
+        <div className="w-full flex flex-col items-center max-w-[280px]">
+          {/* Label di caricamento */}
+          <div className="flex justify-between w-full mb-3 px-1">
+            <span ref={textRef} className="text-[10px] text-white/70 tracking-[0.2em] uppercase font-light">
               {loadingText}
-            </h2>
+            </span>
+            <span className="text-[10px] text-agile-sky font-mono tabular-nums">
+              {Math.round(loadingProgress)}%
+            </span>
           </div>
 
-          {/* Progress Bar originale */}
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden max-w-md">
+          {/* Progress Bar Sottilissima (High-tech) */}
+          <div className="w-full h-[1px] bg-white/10 relative overflow-hidden">
             <div
-              ref={progressBarRef}
-              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 origin-left transition-transform duration-150 ease-linear"
+              className="absolute inset-0 bg-agile-sky origin-left transition-transform duration-300 ease-out shadow-[0_0_8px_rgba(0,212,255,0.8)]"
               style={{ transform: `scaleX(${loadingProgress / 100})` }}
             />
           </div>
 
-          <p className="toast-text mt-4 text-[10px] opacity-50 tracking-[0.3em] uppercase font-mono">
-            Setup Status — {Math.round(loadingProgress)}%
-          </p>
+          <span className="mt-4 text-[8px] text-white/20 tracking-[0.5em] uppercase">
+            System Initializing
+          </span>
         </div>
       )
       }
