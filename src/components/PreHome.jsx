@@ -11,7 +11,9 @@ const PreHome = ({
   loadingProgress,
   onConfirm,
   onDeny,
-  onSkip
+  onSkip,
+  onStartScroll,
+  onExitComplete
 }) => {
   const containerRef = useRef();
   const logoRef = useRef();
@@ -34,83 +36,47 @@ const PreHome = ({
     if (showToast) {
       const tl = gsap.timeline();
       const polygons = logoRef.current.querySelectorAll('polygon');
+      tl.to(containerRef.current, { autoAlpha: 1, duration: 0.1 });
 
       const logoRect = logoRef.current.getBoundingClientRect();
       const centerY = window.innerHeight / 2 - logoRect.top - (logoRect.height / 2);
-      tl.to(containerRef.current, { autoAlpha: 1, duration: 0.1 });
 
-      // Animazione LOGO (più veloce e secca per un look tech)
-      tl.fromTo(polygons[2],
-        {
-          y: 250, // Parte visibilmente più in basso (vicino al centro)
-          opacity: 0,
-          scale: 0.5 // Parte piccolo per dare profondità
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          ease: "expo.out"
-        },
-        "+=0.8" // Delay iniziale per il Mosaico
-      );
-
-      // 2. LE DUE ALI LATERALI
-      // Compaiono subito dopo che il triangolo si è "fissato" in posizione
-      tl.fromTo([polygons[0], polygons[1]],
-        {
-          opacity: 0,
-          scale: 0.8,
-          filter: 'blur(5px)' // Leggero blur iniziale che sparisce
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "power4.out"
-        },
-        "-=0.3" // Inizia mentre la base sta ancora finendo il movimento
-      );
-      // NOME E INFO
-      tl.to(nameRef.current.querySelectorAll('.letter'), {
-        y: 0,
-        duration: 0.7,
-        stagger: 0.02,
-        ease: "power3.out"
-      }, "-=0.4");
-
-      tl.to(roleRef.current.querySelectorAll('.letter, .separator'), {
-        y: 0,
-        duration: 0.7,
-        stagger: 0.01,
-        ease: "power3.out"
-      }, "-=0.5");
-
-      tl.fromTo(toastWrapperRef.current,
-        { y: 15, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-        "-=0.2"
-      );
-
+      tl.fromTo(polygons[2], { y: 250, opacity: 0, scale: 0.5 }, { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, "+=0.8");
+      tl.fromTo([polygons[0], polygons[1]], { opacity: 0, scale: 0.8, filter: 'blur(5px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.6, stagger: 0.15, ease: "power4.out" }, "-=0.3");
+      tl.to(nameRef.current.querySelectorAll('.letter'), { y: 0, duration: 0.7, stagger: 0.02, ease: "power3.out" }, "-=0.4");
+      tl.to(roleRef.current.querySelectorAll('.letter, .separator'), { y: 0, duration: 0.7, stagger: 0.01, ease: "power3.out" }, "-=0.5");
+      tl.fromTo(toastWrapperRef.current, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.2");
     } else {
-      gsap.to(containerRef.current, {
+      const tlOut = gsap.timeline();
+
+      // 1. Facciamo sparire i testi velocemente
+      tlOut.to([logoRef.current, nameRef.current, roleRef.current, toastWrapperRef.current], {
         autoAlpha: 0,
-        duration: 0.6,
-        ease: 'power2.inOut'
+        y: -20,
+        duration: 0.4,
+        ease: "power2.in"
       });
+
+      // 2. IMPORTANTISSIMO: Rendi trasparente lo sfondo del contenitore PreHome
+      // così vediamo attraverso i buchi del mosaico.
+      tlOut.to(containerRef.current, {
+        backgroundColor: "transparent",
+        duration: 0.2
+      }, 0);
     }
   }, [showToast]);
-
   return (
     <div ref={containerRef} className="fixed inset-0 z-[200] bg-black" style={{ opacity: 0 }}>
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <MosaicImage imagePath="/img/pre-home/io.webp" />
+        <MosaicImage
+          imagePath="/img/pre-home/io.webp"
+          isExiting={!showToast}
+          onComplete={onExitComplete} />
       </div>
-      <div className="absolute inset-0 bg-black/65 z-[1]" />
-
+      <div
+        className="absolute inset-0 bg-black/65 z-[1] transition-opacity duration-500"
+        style={{ opacity: showToast ? 1 : 0 }}
+      />
       <div className="absolute top-28 left-0 w-full px-6 flex flex-col items-center z-10 text-center">
 
         {/* LOGO - Dimensioni ridotte (8x8 -> 10x10) */}

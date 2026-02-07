@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
-const MosaicImage = ({ imagePath }) => {
+const MosaicImage = ({ imagePath, isExiting, onComplete, onStartScroll }) => {
   const containerRef = useRef();
   const { playSound, soundEnabled } = useSoundContext();
   const [gridConfig, setGridConfig] = useState({
@@ -46,23 +46,42 @@ const MosaicImage = ({ imagePath }) => {
     const tiles = containerRef.current?.querySelectorAll('.tile');
     if (!tiles?.length) return;
 
-    // Timeline per gestire espansione, flash e blur contemporaneamente
+    // Se stiamo uscendo, eseguiamo l'animazione di "apertura"
+    if (isExiting) {
+      gsap.delayedCall(0.4, () => {
+        if (onComplete) onComplete();
+      });
+      gsap.to(tiles, {
+        scaleX: 0,
+        opacity: 0,
+        filter: 'brightness(2) contrast(1.2) blur(15px)',
+        duration: 1.2,
+        stagger: {
+          amount: 0.8,
+          from: "center" // "center" è più scenografico per far vedere lo scroll dietro
+        },
+        ease: "expo.inOut",
+        transformOrigin: (i) => i % 2 === 0 ? "left center" : "right center"
+        // Rimosso onComplete da qui perché ora lo scroll parte prima tramite delayedCall
+      });
+      return;
+    }
+
+    // --- ANIMAZIONE DI ENTRATA (Il tuo codice originale) ---
     const tl = gsap.timeline();
 
     tl.fromTo(tiles,
       {
         scaleX: 0,
         opacity: 0,
-        // Parte con molto blur, molta luminosità e contrasto alto
         filter: 'brightness(3) contrast(1.5) blur(20px)',
         transformOrigin: (i) => i % 2 === 0 ? "left center" : "right center",
       },
       {
         scaleX: 1,
         opacity: 1,
-        // Arriva a fuoco (blur 0), luminosità soft e contrasto normale
         filter: 'brightness(0.6) contrast(1) blur(0px)',
-        duration: 1.6, // Leggermente più lento per gustarsi il passaggio del blur
+        duration: 1.6,
         stagger: {
           amount: 1.5,
           from: "start"
@@ -75,7 +94,7 @@ const MosaicImage = ({ imagePath }) => {
         }
       }
     );
-  }, [gridConfig, soundEnabled]);
+  }, [gridConfig, soundEnabled, isExiting]); // AGGIUNTO isExiting alle dipendenze
 
   const totalTiles = gridConfig.rows * gridConfig.cols;
 

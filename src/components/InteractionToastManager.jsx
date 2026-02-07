@@ -14,33 +14,33 @@ const InteractionToastManager = ({ onInteractionComplete, onAnimationStart }) =>
   } = useSoundContext();
   const { preloadAudio, loadingProgress, isPreloading } = useAudioPreloader();
 
-  const finish = () => {
-    setShowToast(false);
-    onInteractionComplete?.();
-    onAnimationStart?.();
-  };
-
   const handleConfirm = async () => {
     initializeAudio();
-    await preloadAudio(); // Il "depistaggio" di 6 secondi
-    startPlayback();      // Attiva i suoni e imposta soundEnabled: true
-    finish();
+    await preloadAudio();
+    startPlayback();
+    setShowToast(false);
+    // Il mosaico partirà ora, e quando finirà chiamerà onExitComplete
   };
 
   const handleDeny = async () => {
     initializeAudio();
-    // In questo modo l'interfaccia saprà che l'utente ha scelto il silenzio
     if (soundEnabled) toggleSound();
-
-    await preloadAudio(); // Carica comunque i file (depistaggio)
-    finish();
+    await preloadAudio();
+    setShowToast(false);
+    // Il mosaico partirà ora, e quando finirà chiamerà onExitComplete
   };
 
   const handleSkip = async () => {
     initializeAudio();
     await preloadAudio();
     startPlayback();
-    finish();
+    setShowToast(false);
+    // Il mosaico partirà ora, e quando finirà chiamerà onExitComplete
+  };
+
+  // Quando il mosaico finisce l'animazione di uscita:
+  const handleMosaicComplete = () => {
+    onAnimationStart?.(); // Questo setterà showPreHome(false) in App.jsx
   };
 
   return (
@@ -51,6 +51,7 @@ const InteractionToastManager = ({ onInteractionComplete, onAnimationStart }) =>
       onConfirm={handleConfirm}
       onDeny={handleDeny}
       onSkip={handleSkip}
+      onExitComplete={handleMosaicComplete} // ← QUI è la chiave!
     />
   );
 };
