@@ -62,8 +62,7 @@ const PreHome = ({
       />
 
       {/* Overlays scuri */}
-      <div className="absolute inset-0 bg-black/20" />
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-black/70" />
 
       {/* --- BRANDING IN ALTO --- */}
       <div

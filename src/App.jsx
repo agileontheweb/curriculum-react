@@ -16,10 +16,13 @@ import Footer from './components/Footer';
 import PreHome from './components/PreHome';
 // Hook dell'animazione
 import { useInitialAnimation } from './contexts/useInitialAnimation.js';
+import { SoundProvider, useSoundContext, SOUNDS } from './contexts/SoundContext.jsx';
+import InteractionToastManager from './components/InteractionToastManager';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function App() {
+function AppContent() {
+  const { playSound, playSoundForced, initializeAudio, startPlayback, soundEnabled } = useSoundContext();
   const [showPreHome, setShowPreHome] = useState(true);
 
   const scrollContainerRef = useRef();
@@ -48,7 +51,9 @@ function App() {
     sortedExperiences,
     setSelectedId,
     isScrollingRef,
-    () => setIsReady(true)
+    () => setIsReady(true),
+    playSoundForced,
+    soundEnabled
   );
 
   const handleOpenPresentation = () => presentationRef.current?.open();
@@ -86,6 +91,7 @@ function App() {
           if (self.isActive && !isScrollingRef.current) {
             const id = Number(card.getAttribute('data-id'));
             setSelectedId(id);
+            playSound(SOUNDS.BOOM_SWOOSH, 0.05);
           }
         },
       });
@@ -95,6 +101,7 @@ function App() {
 
   const handleTimelineClick = (id) => {
     if (isInitialAnimationRunning.current) return;
+    playSound(SOUNDS.BOOM_SWOOSH, 0.1);
     const targetCard = cardsRef.current[id];
     if (targetCard) {
       isScrollingRef.current = true;
@@ -112,16 +119,11 @@ function App() {
   return (
     <>
       {showPreHome && (
-        <PreHome
-          showToast={true}
-          isLoading={false}
-          loadingProgress={0}
-          onConfirm={handleStartApp}
-          onDeny={handleStartApp}
-          onSkip={handleStartApp}
+        <InteractionToastManager
+          onInteractionComplete={() => { }}
+          onAnimationStart={handleStartApp}
         />
       )}
-
       {!showPreHome && (
         <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans">
           <div ref={navbarRef} className="opacity-0">
@@ -184,4 +186,10 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <SoundProvider>
+      <AppContent />
+    </SoundProvider>
+  );
+}

@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
 export default function Timeline({ experiences, selectedId, onSelect, isAnimationRunning }) {
   const scrollRef = useRef();
-
+  const { playSound } = useSoundContext();
   useEffect(() => {
     if (isAnimationRunning) return;
     const activeItem = scrollRef.current?.querySelector('.dot-active');
@@ -25,6 +26,11 @@ export default function Timeline({ experiences, selectedId, onSelect, isAnimatio
             <div
               key={exp.id}
               onClick={() => onSelect(exp.id)}
+              onMouseEnter={() => {
+                if (!isAnimationRunning) {
+                  playSound(SOUNDS.HOVER, 0.05);
+                }
+              }}
               className="timeline-item group"
               data-year={exp.id}
             >

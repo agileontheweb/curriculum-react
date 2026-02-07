@@ -3,15 +3,20 @@ import { HiXMark } from "react-icons/hi2";
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import YouTubePlayer from './YouTubePlayer';
+import { useSoundContext } from '../contexts/SoundContext';
+
 
 const Presentation = forwardRef((props, ref) => {
   const { t } = useTranslation();
+  const { setPresentationMode } = useSoundContext();
   const containerRef = useRef();
   const contentRef = useRef();
   const closeBtnRef = useRef();
 
   useImperativeHandle(ref, () => ({
     open() {
+      setPresentationMode(true);
+
       const tl = gsap.timeline();
       tl.set(containerRef.current, { width: 0, visibility: 'visible' })
         .to(containerRef.current, {
@@ -27,6 +32,8 @@ const Presentation = forwardRef((props, ref) => {
         }, "-=0.2");
     },
     close() {
+      setPresentationMode(false);
+
       const tl = gsap.timeline();
       tl.to([contentRef.current, closeBtnRef.current], { opacity: 0, y: 10, duration: 0.3 })
         .to(containerRef.current, {

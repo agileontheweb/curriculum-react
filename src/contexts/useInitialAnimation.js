@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
-
+import { SOUNDS } from '../contexts/SoundContext';
 export const useInitialAnimation = (
   cardsRef,
   scrollContainerRef,
@@ -10,11 +10,18 @@ export const useInitialAnimation = (
   sortedExperiences,
   setSelectedId,
   isScrollingRef,
-  onCompleteCallback
+  onCompleteCallback,
+  playSoundForced,
+  soundEnabled
 ) => {
   const isInitialAnimationRunning = useRef(false);
 
   const runInitialScrollAnimation = () => {
+    const playIfEnabled = (sound, vol) => {
+      if (soundEnabled) {
+        playSoundForced(sound, vol);
+      }
+    }
     const scroller = scrollContainerRef.current;
     const wrapper = contentWrapperRef.current;
 
@@ -39,10 +46,14 @@ export const useInitialAnimation = (
     gsap.set(navbarRef.current, { opacity: 0 });
 
     const tl = gsap.timeline({
+      onStart: () => {
+        playIfEnabled(SOUNDS.EPIC_TRANSITION, 0.2);
+      },
       onComplete: () => {
         isScrollingRef.current = false;
         isInitialAnimationRunning.current = false;
         if (onCompleteCallback) onCompleteCallback();
+        playIfEnabled(SOUNDS.CLICK, 0.1);
       }
     });
 
@@ -54,13 +65,19 @@ export const useInitialAnimation = (
     tl.to(scroller, {
       scrollTop: 0,
       duration: 3,
-      ease: "power2.inOut"
+      ease: "power2.inOut",
+      onStart: () => {
+        playIfEnabled(SOUNDS.CINEMATIC_FLASHBACK, 0.15);
+      }
     }, "-=0.2");
 
     tl.to(asideRef.current, {
       x: '0%',
       duration: 1.2,
-      ease: "expo.out"
+      ease: "expo.out",
+      onStart: () => {
+        playIfEnabled(SOUNDS.SWOOSH_OUT, 0.1);
+      }
     }, "-=1");
 
     tl.to(navbarRef.current, {

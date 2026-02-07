@@ -1,10 +1,11 @@
 import { forwardRef } from 'react';
 import { HiXMark } from "react-icons/hi2";
 import { useTranslation } from 'react-i18next';
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
 const Sidebar = forwardRef(({ onClose, links }, ref) => {
   const { t } = useTranslation();
-
+  const { playSound } = useSoundContext();
   return (
     <>
       <div
@@ -15,8 +16,12 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
 
       <div ref={ref} className="sidemenu-drawer">
         <button
-          className="absolute top-8 right-8 text-white hover:text-agile-sky transition-transform hover:rotate-90 p-2"
-          onClick={onClose}
+          className="absolute cursor-pointer top-8 right-8 text-white hover:text-agile-sky transition-transform hover:rotate-90 p-2"
+          onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
+          onClick={() => {
+            playSound(SOUNDS.CLICK, 0.1);
+            onClose();
+          }}
           aria-label={t('common.close')}
         >
           <HiXMark className="w-10 h-10 md:w-12 md:h-12" />
@@ -34,11 +39,13 @@ const Sidebar = forwardRef(({ onClose, links }, ref) => {
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 className="nav-link-item group"
+                onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
                 onClick={(e) => {
+                  playSound(SOUNDS.CLICK, 0.1);
+
                   if (link.onClick) {
                     e.preventDefault();
                     link.onClick();
-                    onClose();
                   } else if (!isExternal) {
                     e.preventDefault();
                     onClose();
