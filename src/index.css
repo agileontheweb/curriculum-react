@@ -7,6 +7,7 @@
 @import "./styles/presentation.css";
 @import "./styles/github.css";
 @import "./styles/footer.css";
+@import "./styles/toast.css";
 
 @theme {
   --font-sans: "Plus Jakarta Sans", sans-serif;
