@@ -151,7 +151,8 @@ function App() {
 
             <section
               ref={scrollContainerRef}
-              className="flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8"
+              className={`flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 ${!isReady ? 'pointer-events-none select-none' : ''
+                }`}
               style={{ scrollBehavior: 'auto' }}
 
             >
@@ -162,7 +163,10 @@ function App() {
                     ref={el => cardsRef.current[exp.id] = el}
                     experience={exp}
                     data-id={exp.id}
-                    style={{ opacity: selectedId === exp.id ? 1 : 0.4 }}
+                    style={{
+                      opacity: !isReady ? 0.4 : (selectedId === exp.id ? 1 : 0.4),
+                      transition: 'opacity 0.5s ease'
+                    }}
                     onOpenVideo={handleOpenVideo}
                   />
                 ))}

@@ -1,4 +1,7 @@
 @layer components {
+  .pointer-events-none .experience-card {
+    cursor: default !important;
+  }
   .content-section {
     @apply flex-1;
   }
