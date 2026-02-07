@@ -3,13 +3,18 @@ import { HiOutlineBuildingOffice2, HiOutlineCommandLine, HiArrowsPointingOut } f
 import ExperienceModal from './ExperienceModal';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
-
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 const ExperienceContent = forwardRef(({ experience, onOpenVideo, ...props }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
-
+  const { playSound, playSoundForced } = useSoundContext();
   if (!experience) return null;
   const expKey = `experiences.${experience.year}`;
+
+  const handleOpen = () => {
+    playSoundForced(SOUNDS.CLICK, 0.2);
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -19,7 +24,8 @@ const ExperienceContent = forwardRef(({ experience, onOpenVideo, ...props }, ref
         className={`content-section mb-24 transition-all duration-700 ease-in-out ${props.className || ''}`}
       >
         <div
-          onClick={() => setIsOpen(true)}
+          onClick={handleOpen}
+          onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
           className="experience-card group cursor-pointer relative hover:border-agile-sky/30 transition-colors"
         >
           <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 text-agile-sky">
@@ -59,7 +65,10 @@ const ExperienceContent = forwardRef(({ experience, onOpenVideo, ...props }, ref
       {isOpen && createPortal(
         <ExperienceModal
           experience={experience}
-          onClose={() => setIsOpen(false)}
+          onClose={() => {
+            playSound(SOUNDS.CLICK, 0.1);
+            setIsOpen(false);
+          }}
           onOpenVideo={onOpenVideo}
         />,
         document.body

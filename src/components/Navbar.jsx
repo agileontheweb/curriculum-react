@@ -2,16 +2,17 @@ import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
-import { HiChevronDown, HiBars3BottomRight } from "react-icons/hi2";
+import { HiChevronDown, HiBars3BottomRight, HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useTranslation } from 'react-i18next';
 import Sidebar from './Sidebar';
 import logo from '../assets/logo-agileontheweb-gradient.svg';
+import { useSoundContext, SOUNDS } from '../contexts/SoundContext';
 
 gsap.registerPlugin(TextPlugin);
 
 export default function Navbar({ onOpenPresentation, onOpenGithub }) {
   const { t, i18n } = useTranslation();
-
+  const { soundEnabled, toggleSound, playSound, hasInteractedWithAudio } = useSoundContext();
   // Refs
   const textRef = useRef();
   const sidebarRef = useRef();
@@ -51,6 +52,7 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
   const { contextSafe } = useGSAP({ scope: sidebarRef });
 
   const onOpenMenu = contextSafe(() => {
+    playSound(SOUNDS.CINEMATIC_FLASHBACK, 0.3);
     setIsMenuOpen(true);
     const tl = gsap.timeline();
 
@@ -66,6 +68,8 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
   });
 
   const onCloseMenu = contextSafe((callback) => {
+    playSound(SOUNDS.CINEMATIC_FLASHBACK, 0.3);
+    playSound(SOUNDS.CLICK, 0.1);
     const tl = gsap.timeline({
       onComplete: () => {
         setIsMenuOpen(false);
@@ -81,6 +85,7 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
   });
 
   const handleLangSelect = (langCode) => {
+    playSound(SOUNDS.CLICK, 0.1);
     i18n.changeLanguage(langCode);
     setIsLangOpen(false);
   };
@@ -100,12 +105,36 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
             </div>
 
             {/* ACTIONS */}
-            <div className="navbar-actions">
+            <div className="navbar-actions flex items-center gap-3">
+
+              {/* TOGGLE AUDIO - Appare solo se l'utente ha sbloccato l'audio */}
+              {hasInteractedWithAudio && (
+                <button
+                  onClick={() => {
+                    if (!soundEnabled) playSound(SOUNDS.CLICK, 0.1);
+                    toggleSound();
+                  }}
+                  onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
+                  className="cursor-pointer p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+                  title={soundEnabled ? "Disattiva suoni" : "Attiva suoni"}
+                >
+                  {soundEnabled ? (
+                    <HiSpeakerWave className="w-5 h-5" />
+                  ) : (
+                    <HiSpeakerXMark className="w-5 h-5" />
+                  )}
+                </button>
+              )}
+
               {/* Lingue */}
               <div className="language-dropdown">
                 <button
-                  className="language-trigger"
-                  onClick={() => setIsLangOpen(!isLangOpen)}
+                  className="language-trigger cursor-pointer"
+                  onClick={() => {
+                    playSound(SOUNDS.CLICK, 0.1);
+                    setIsLangOpen(!isLangOpen);
+                  }}
+                  onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
                 >
                   <span>{langLabels[currentLang] || 'ITA'}</span>
                   <HiChevronDown className={`w-4 h-4 transition-transform duration-300 ${isLangOpen ? 'rotate-180' : ''}`} />
@@ -116,8 +145,9 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
                     {Object.keys(langLabels).map((lang) => (
                       <button
                         key={lang}
-                        className={`language-option ${currentLang === lang ? 'active' : ''}`}
+                        className={`cursor-pointer language-option ${currentLang === lang ? 'active' : ''}`}
                         onClick={() => handleLangSelect(lang)}
+                        onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
                       >
                         {langLabels[lang]}
                       </button>
@@ -126,7 +156,15 @@ export default function Navbar({ onOpenPresentation, onOpenGithub }) {
                 )}
               </div>
 
-              <button className="hamburger-btn" onClick={onOpenMenu}>
+              {/* Hamburger Menu */}
+              <button
+                className="hamburger-btn cursor-pointer"
+                onClick={() => {
+                  // Il suono è già gestito dentro onOpenMenu nel componente padre
+                  onOpenMenu();
+                }}
+                onMouseEnter={() => playSound(SOUNDS.HOVER, 0.05)}
+              >
                 <HiBars3BottomRight className="w-8 h-8 md:w-9 md:h-9" />
               </button>
             </div>

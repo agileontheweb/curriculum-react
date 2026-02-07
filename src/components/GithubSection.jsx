@@ -1,6 +1,7 @@
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark, HiOutlineCalendarDays, HiOutlineCommandLine, HiArrowTopRightOnSquare, HiOutlineBuildingOffice2, HiOutlineUserCircle, HiOutlineGlobeAlt, HiOutlineLockClosed } from "react-icons/hi2";
+import { useSoundContext } from '../contexts/SoundContext';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -11,7 +12,7 @@ const GITHUB_HISTORY = {
     { name: "Ayuntamiento de Madrid", id: "AyuntamientoMadrid", label: "Madrid City Council" },
     { name: "Consul Democracy", id: "consuldemocracy", label: "Consul Democracy" }
   ],
-  // Inserisci qui il numero approssimativo dei tuoi repo privati
+  // Numero approssimativo dei  repo privati
   privateReposCount: 36
 };
 
@@ -21,11 +22,13 @@ const GithubSection = forwardRef(({ username = "agileontheweb", repo = "curricul
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef();
+  const { setGithubMode, playSound } = useSoundContext();
 
   useImperativeHandle(ref, () => ({
     open: () => {
       setIsOpen(true);
       fetchData();
+      setGithubMode(true);
     },
     close: handleClose
   }));
@@ -51,6 +54,7 @@ const GithubSection = forwardRef(({ username = "agileontheweb", repo = "curricul
   const { contextSafe } = useGSAP({ scope: containerRef });
 
   const handleClose = contextSafe(() => {
+    setGithubMode(false);
     const tl = gsap.timeline({
       onComplete: () => {
         setIsOpen(false);
