@@ -24,6 +24,7 @@ gsap.registerPlugin(ScrollTrigger);
 function AppContent() {
   const { playSound, playSoundForced, initializeAudio, startPlayback, soundEnabled } = useSoundContext();
   const [showPreHome, setShowPreHome] = useState(true);
+  const [showMainContent, setShowMainContent] = useState(false); // ← NUOVO stato
 
   const scrollContainerRef = useRef();
   const contentWrapperRef = useRef();
@@ -72,6 +73,10 @@ function AppContent() {
   }, [showPreHome]);
 
   const handleStartApp = () => {
+    setShowMainContent(true);
+  };
+
+  const handleMosaicComplete = () => {
     setShowPreHome(false);
   };
 
@@ -122,66 +127,74 @@ function AppContent() {
         <InteractionToastManager
           onInteractionComplete={() => { }}
           onAnimationStart={handleStartApp}
+          onMosaicComplete={handleMosaicComplete} // ← NUOVO callback
+
         />
       )}
-      {!showPreHome && (
-        <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans">
-          <div ref={navbarRef} className="opacity-0">
-            <Navbar
-              onOpenPresentation={handleOpenPresentation}
-              onOpenGithub={handleOpenGithub}
-            />
-          </div>
-
-          <main className="flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden">
-
-            <aside
-              ref={asideRef}
-              className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar opacity-0"
-              style={{ transform: 'translateX(-100%)' }}
-            >
-              <div className="flex-1 w-full">
-                <Timeline
-                  experiences={sortedExperiences}
-                  selectedId={selectedId}
-                  onSelect={handleTimelineClick}
-                  isAnimationRunning={isInitialAnimationRunning.current}
-                />
-              </div>
-            </aside>
-
-
-            <section
-              ref={scrollContainerRef}
-              className={`flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 ${!isReady ? 'pointer-events-none select-none' : ''
-                }`}
-              style={{ scrollBehavior: 'auto' }}
-
-            >
-              <div ref={contentWrapperRef} style={{ opacity: 0 }}>
-                {sortedExperiences.map((exp) => (
-                  <ExperienceContent
-                    key={exp.id}
-                    ref={el => cardsRef.current[exp.id] = el}
-                    experience={exp}
-                    data-id={exp.id}
-                    style={{
-                      opacity: !isReady ? 0.4 : (selectedId === exp.id ? 1 : 0.4),
-                      transition: 'opacity 0.5s ease'
-                    }}
-                    onOpenVideo={handleOpenVideo}
-                  />
-                ))}
-              </div>
-            </section>
-          </main>
-
-          <Presentation ref={presentationRef} />
-          <GithubSection ref={githubRef} username="agileontheweb" />
-          <VideoSection ref={videoSectionRef} />
-          <Footer />
+      <div className="h-screen flex flex-col overflow-hidden bg-agile-navy font-sans"
+        style={{
+          opacity: showMainContent ? 1 : 0,
+          visibility: showMainContent ? 'visible' : 'hidden',
+          transition: 'opacity 0.3s ease-in',
+          pointerEvents: showMainContent ? 'auto' : 'none'
+        }}
+      >
+        <div ref={navbarRef} className="opacity-0">
+          <Navbar
+            onOpenPresentation={handleOpenPresentation}
+            onOpenGithub={handleOpenGithub}
+          />
         </div>
-      )}
+
+        <main className="flex-1 flex flex-col md:flex-row pt-14 md:pt-20 overflow-hidden">
+
+          <aside
+            ref={asideRef}
+            className="sticky z-40 w-full md:relative md:top-0 md:w-20 h-auto md:h-full flex flex-row md:flex-col items-center border-b md:border-b-0 md:border-r border-white/5 py-2 md:py-6 px-4 md:px-0 bg-agile-navy/95 md:bg-agile-navy/50 backdrop-blur-sm overflow-x-auto md:overflow-y-auto no-scrollbar opacity-0"
+            style={{ transform: 'translateX(-100%)' }}
+          >
+            <div className="flex-1 w-full">
+              <Timeline
+                experiences={sortedExperiences}
+                selectedId={selectedId}
+                onSelect={handleTimelineClick}
+                isAnimationRunning={isInitialAnimationRunning.current}
+              />
+            </div>
+          </aside>
+
+
+          <section
+            ref={scrollContainerRef}
+            className={`flex-1 h-full overflow-y-auto pt-6 md:pt-12 px-4 md:pr-12 pb-8 ${!isReady ? 'pointer-events-none select-none' : ''
+              }`}
+            style={{ scrollBehavior: 'auto' }}
+
+          >
+            <div ref={contentWrapperRef} style={{ opacity: 0 }}>
+              {sortedExperiences.map((exp) => (
+                <ExperienceContent
+                  key={exp.id}
+                  ref={el => cardsRef.current[exp.id] = el}
+                  experience={exp}
+                  data-id={exp.id}
+                  style={{
+                    opacity: !isReady ? 0.4 : (selectedId === exp.id ? 1 : 0.4),
+                    transition: 'opacity 0.5s ease'
+                  }}
+                  onOpenVideo={handleOpenVideo}
+                />
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <Presentation ref={presentationRef} />
+        <GithubSection ref={githubRef} username="agileontheweb" />
+        <VideoSection ref={videoSectionRef} />
+        <Footer />
+      </div>
+
     </>
   );
 }

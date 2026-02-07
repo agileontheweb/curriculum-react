@@ -4,7 +4,7 @@ import { useSoundContext } from '../contexts/SoundContext';
 import { useAudioPreloader } from '../hooks/useAudioPreloader';
 import PreHome from './PreHome';
 
-const InteractionToastManager = ({ onInteractionComplete, onAnimationStart }) => {
+const InteractionToastManager = ({ onInteractionComplete, onAnimationStart, onMosaicComplete }) => {
   const [showToast, setShowToast] = useState(true);
   const {
     initializeAudio,
@@ -38,10 +38,17 @@ const InteractionToastManager = ({ onInteractionComplete, onAnimationStart }) =>
     // Il mosaico partirà ora, e quando finirà chiamerà onExitComplete
   };
 
-  // Quando il mosaico finisce l'animazione di uscita:
-  const handleMosaicComplete = () => {
-    onAnimationStart?.(); // Questo setterà showPreHome(false) in App.jsx
+  // Quando il mosaico INIZIA a sparire, mostra il contenuto sotto
+  const handleStartScroll = () => {
+    onAnimationStart?.();
   };
+
+  // Quando il mosaico è COMPLETAMENTE sparito, smonta PreHome
+  const handleMosaicComplete = () => {
+    onMosaicComplete?.();
+  };
+
+
 
   return (
     <PreHome
@@ -51,6 +58,7 @@ const InteractionToastManager = ({ onInteractionComplete, onAnimationStart }) =>
       onConfirm={handleConfirm}
       onDeny={handleDeny}
       onSkip={handleSkip}
+      onStartScroll={handleStartScroll}
       onExitComplete={handleMosaicComplete} // ← QUI è la chiave!
     />
   );

@@ -48,9 +48,12 @@ const MosaicImage = ({ imagePath, isExiting, onComplete, onStartScroll }) => {
 
     // Se stiamo uscendo, eseguiamo l'animazione di "apertura"
     if (isExiting) {
-      gsap.delayedCall(0.4, () => {
-        if (onComplete) onComplete();
+      const tlExit = gsap.timeline({
+        onComplete: () => {
+          if (onComplete) onComplete();
+        }
       });
+
       gsap.to(tiles, {
         scaleX: 0,
         opacity: 0,
@@ -61,9 +64,18 @@ const MosaicImage = ({ imagePath, isExiting, onComplete, onStartScroll }) => {
           from: "center" // "center" è più scenografico per far vedere lo scroll dietro
         },
         ease: "expo.inOut",
-        transformOrigin: (i) => i % 2 === 0 ? "left center" : "right center"
-        // Rimosso onComplete da qui perché ora lo scroll parte prima tramite delayedCall
+        transformOrigin: (i) => i % 2 === 0 ? "left center" : "right center",
+        onComplete: () => {
+          if (onComplete) onComplete();
+        }
       });
+
+      tlExit.to(containerRef.current, {
+        backgroundColor: 'transparent',
+        duration: 1.2,
+        ease: "power2.inOut"
+      }, 0); // 0 = inizia insieme ai tiles
+
       return;
     }
 

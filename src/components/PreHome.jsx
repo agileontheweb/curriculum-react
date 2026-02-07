@@ -47,7 +47,13 @@ const PreHome = ({
       tl.to(roleRef.current.querySelectorAll('.letter, .separator'), { y: 0, duration: 0.7, stagger: 0.01, ease: "power3.out" }, "-=0.5");
       tl.fromTo(toastWrapperRef.current, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.2");
     } else {
-      const tlOut = gsap.timeline();
+      const tlOut = gsap.timeline({
+        onStart: () => {
+          // ✅ Appena inizia l'animazione di uscita, avvisa App di mostrare il contenuto
+          onStartScroll?.();
+        }
+      });
+
 
       // 1. Facciamo sparire i testi velocemente
       tlOut.to([logoRef.current, nameRef.current, roleRef.current, toastWrapperRef.current], {
