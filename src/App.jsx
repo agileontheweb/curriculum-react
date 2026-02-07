@@ -63,17 +63,14 @@ function AppContent() {
     videoSectionRef.current?.open(videoId, projectTitle);
   };
 
-  useEffect(() => {
-    if (!showPreHome) {
-      const delayTimeout = setTimeout(() => {
-        runInitialScrollAnimation();
-      }, 50);
-      return () => clearTimeout(delayTimeout);
-    }
-  }, [showPreHome]);
+
 
   const handleStartApp = () => {
     setShowMainContent(true);
+    setTimeout(() => {
+      runInitialScrollAnimation();
+    }, 100); // Piccolo delay per assicurarsi che il DOM sia pronto
+
   };
 
   const handleMosaicComplete = () => {
