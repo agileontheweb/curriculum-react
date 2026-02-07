@@ -9,7 +9,8 @@ export const useInitialAnimation = (
   navbarRef,
   sortedExperiences,
   setSelectedId,
-  isScrollingRef
+  isScrollingRef,
+  onCompleteCallback
 ) => {
   const isInitialAnimationRunning = useRef(false);
 
@@ -26,7 +27,6 @@ export const useInitialAnimation = (
 
     if (!oldestCard) return;
 
-    // Calcoliamo la posizione della card del 1994
     const offset = window.innerWidth < 768 ? 180 : 100;
     const startPos = oldestCard.offsetTop - offset;
 
@@ -42,6 +42,7 @@ export const useInitialAnimation = (
       onComplete: () => {
         isScrollingRef.current = false;
         isInitialAnimationRunning.current = false;
+        if (onCompleteCallback) onCompleteCallback();
       }
     });
 

@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-export default function Timeline({ experiences, selectedId, onSelect }) {
+export default function Timeline({ experiences, selectedId, onSelect, isAnimationRunning }) {
   const scrollRef = useRef();
 
   useEffect(() => {
+    if (isAnimationRunning) return;
     const activeItem = scrollRef.current?.querySelector('.dot-active');
     if (activeItem) {
       activeItem.scrollIntoView({
@@ -12,7 +13,7 @@ export default function Timeline({ experiences, selectedId, onSelect }) {
         inline: 'center',
       });
     }
-  }, [selectedId]);
+  }, [selectedId, isAnimationRunning]);
 
   return (
     <div ref={scrollRef} className="timeline-container no-scrollbar">

@@ -1,4 +1,4 @@
-// src/App.jsx - Con animazione iniziale
+// src/App.jsx
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { experiences as initialExperiences } from './data';
 import { useGSAP } from '@gsap/react';
@@ -14,7 +14,7 @@ import Presentation from './components/Presentation';
 import GithubSection from './components/GithubSection';
 import Footer from './components/Footer';
 import PreHome from './components/PreHome';
-// Importa l'hook dell'animazione
+// Hook dell'animazione
 import { useInitialAnimation } from './contexts/useInitialAnimation.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -37,6 +37,7 @@ function App() {
   }, []);
 
   const [selectedId, setSelectedId] = useState(sortedExperiences[0].id);
+  const [isReady, setIsReady] = useState(false);
 
   const { runInitialScrollAnimation, isInitialAnimationRunning } = useInitialAnimation(
     cardsRef,
@@ -46,7 +47,8 @@ function App() {
     navbarRef,
     sortedExperiences,
     setSelectedId,
-    isScrollingRef
+    isScrollingRef,
+    () => setIsReady(true)
   );
 
   const handleOpenPresentation = () => presentationRef.current?.open();
@@ -69,22 +71,27 @@ function App() {
   };
 
   useGSAP(() => {
+    if (!isReady) return;
+
+    console.log("Inizializzazione ScrollTrigger...");
     const cards = Object.values(cardsRef.current);
     cards.forEach((card) => {
       if (!card) return;
       ScrollTrigger.create({
         trigger: card,
         scroller: scrollContainerRef.current,
-        start: "top 250px",
-        end: "bottom 250px",
+        start: "top 30%",
+        end: "bottom 30%",
         onToggle: (self) => {
-          if (self.isActive && !isScrollingRef.current && !isInitialAnimationRunning.current) {
-            setSelectedId(Number(card.getAttribute('data-id')));
+          if (self.isActive && !isScrollingRef.current) {
+            const id = Number(card.getAttribute('data-id'));
+            setSelectedId(id);
           }
         },
       });
     });
-  }, [sortedExperiences, isInitialAnimationRunning]);
+    return () => ScrollTrigger.getAll().forEach(t => t.kill());
+  }, [isReady, isInitialAnimationRunning]);
 
   const handleTimelineClick = (id) => {
     if (isInitialAnimationRunning.current) return;
